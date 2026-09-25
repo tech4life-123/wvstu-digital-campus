@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>WVSTU Digital Campus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hero-photo: none;
+    --ink: #143A2C;
+    --ink-2: #2C6B4E;
+    --ink-dim: #5C7568;
+    --paper: #F8F6EC;
+    --paper-2: #FFFFFF;
+    --line: #DDD8BE;
+    --gold: #C79A1E;
+    --gold-soft: #F5E7BE;
+    --green: #2F7A4F;
+    --green-soft: #DFEEE3;
+    --amber: #A6631A;
+    --amber-soft: #F3E3CD;
+    --red: #A3402F;
+    --red-soft: #F3DEDA;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 1px 2px rgba(20,58,44,0.08), 0 8px 24px rgba(20,58,44,0.08);
+  }
+  :root:not([data-theme="light"]) {
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #E7F2EA;
+      --ink-2: #BFE0CB;
+      --ink-dim: #9FB8AA;
+      --paper: #0E1912;
+      --paper-2: #16241B;
+      --line: #24382B;
+      --gold: #E3C15C;
+      --gold-soft: #2E2A18;
+      --green: #6FBE97;
+      --green-soft: #16261F;
+      --amber: #E0A85C;
+      --amber-soft: #2C2013;
+      --red: #E28275;
+      --red-soft: #2C1815;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #E7F2EA;
+    --ink-2: #BFE0CB;
+    --ink-dim: #9FB8AA;
+    --paper: #0E1912;
+    --paper-2: #16241B;
+    --line: #24382B;
+    --gold: #E3C15C;
+    --gold-soft: #2E2A18;
+    --green: #6FBE97;
+    --green-soft: #16261F;
+    --amber: #E0A85C;
+    --amber-soft: #2C2013;
+    --red: #E28275;
+    --red-soft: #2C1815;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+  }
+  a { color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  img { max-width: 100%; }
+
+  /* ---- Top bar ---- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; gap: 12px;
+    max-width: 1100px; margin: 0 auto; padding: 12px 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: #FFFFFF; padding: 3px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; box-shadow: 0 0 0 1px var(--line);
+  }
+  .brand-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .brand-text { line-height: 1.15; }
+  .brand-text .name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15px; }
+  .brand-text .sub { font-size: 11px; color: var(--ink-dim); letter-spacing: 0.02em; }
+  .tabswitch {
+    display: flex; gap: 2px;
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px;
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; -ms-overflow-style: none; min-width: 0; flex: 1;
+  }
+  .tabswitch::-webkit-scrollbar { display: none; }
+  .tabswitch button {
+    border: none; background: transparent; color: var(--ink-dim);
+    padding: 9px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    transition: background 0.15s, color 0.15s; flex-shrink: 0; white-space: nowrap;
+  }
+  .tabswitch button.active { background: var(--ink); color: var(--paper); }
+
+  section.view { display: none; }
+  section.view.active { display: block; }
+
+  /* ---- badges ---- */
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    padding: 3px 8px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge.verified { background: var(--green-soft); color: var(--green); }
+  .badge.demo { background: var(--amber-soft); color: var(--amber); }
+  .badge.proposed { background: var(--paper-2); color: var(--ink-dim); border: 1px solid var(--line); }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  /* ================= HOME ================= */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 64px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: -20px;
+    background-image: var(--hero-photo);
+    background-size: cover;
+    background-position: center 28%;
+    filter: blur(11px) saturate(1.05);
+    transform: scale(1.08);
+    z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(12,22,16,0.5) 0%, rgba(12,22,16,0.62) 55%, var(--paper) 100%);
+    z-index: 1;
+  }
+  .hero > .wrap { position: relative; z-index: 2; }
+  .hero h1 { color: #FFFFFF; }
+  .hero p.lede { color: rgba(255,255,255,0.92); }
+  .hero .btn-secondary { background: rgba(255,255,255,0.12); color: #FFFFFF; border-color: rgba(255,255,255,0.45); }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .eyebrow-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; color: var(--ink-dim); margin-bottom: 18px;
+    border: 1px solid var(--line); padding: 5px 11px; border-radius: 999px;
+    background: var(--paper-2);
+  }
+  .hero h1 { font-size: 42px; line-height: 1.08; margin-bottom: 18px; }
+  .hero p.lede { font-size: 17px; color: var(--ink-2); line-height: 1.55; max-width: 46ch; margin-bottom: 26px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 11px 20px; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: 14px; border: 1px solid transparent;
+    text-decoration: none; transition: transform 0.1s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-gold { background: var(--gold); color: #1a1305; }
+
+  .hero-card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 22px; box-shadow: var(--shadow);
+  }
+  .hero-card .cap { font-size: 12px; color: var(--ink-dim); margin-bottom: 14px; }
+  .fact-row { display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .fact-row:first-of-type { border-top: none; }
+  .fact-row .k { color: var(--ink-dim); }
+  .fact-row .v { font-weight: 600; text-align: right; }
+
+  .section { padding: 52px 0; border-bottom: 1px solid var(--line); }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px; gap: 16px; flex-wrap: wrap; }
+  .section-head h2 { font-size: 26px; }
+  .section-head .desc { color: var(--ink-dim); font-size: 14px; max-width: 50ch; }
+
+  .colleges-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .college-card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 18px;
+  }
+  .college-card .num { font-size: 12px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .college-card h3 { font-size: 15.5px; line-height: 1.3; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .service-card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 16px; font-size: 13.5px;
+  }
+  .service-card .t { font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+  .service-card .d { color: var(--ink-dim); line-height: 1.4; }
+
+  footer { padding: 32px 0 48px; }
+  .disclaimer {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 16px 18px; font-size: 12.5px; color: var(--ink-dim); line-height: 1.55;
+  }
+  .disclaimer strong { color: var(--ink); }
+
+  /* ================= PORTAL ================= */
+  .portal-head { padding: 30px 0 6px; }
+  .portal-greet { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .portal-greet h2 { font-size: 24px; }
+  .portal-greet .meta { color: var(--ink-dim); font-size: 13.5px; margin-top: 4px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 22px 0; }
+  .stat-card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 16px;
+  }
+  .stat-card .label { font-size: 12px; color: var(--ink-dim); margin-bottom: 6px; }
+  .stat-card .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; }
+  .stat-card .sub { font-size: 12px; color: var(--ink-dim); margin-top: 3px; }
+
+  .portal-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; padding-bottom: 20px; }
+  .card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 20px; margin-bottom: 16px;
+  }
+  .card h3 { font-size: 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+  .card h3 .badge { font-family: 'Inter'; }
+
+  .action-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px; background: var(--amber-soft); border-radius: var(--radius-sm);
+    margin-bottom: 8px; gap: 10px;
+  }
+  .action-item .txt { font-size: 13.5px; }
+  .action-item .txt b { display: block; font-size: 13px; }
+  .action-item .txt span { color: var(--ink-dim); font-size: 12.5px; }
+  .btn-sm { padding: 7px 12px; font-size: 12.5px; border-radius: var(--radius-sm); background: var(--ink); color: var(--paper); border: none; font-weight: 600; white-space: nowrap; }
+
+  .table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ================= LOGIN GATE ================= */
+  #login-gate {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+    overflow: hidden;
+  }
+  #login-gate::before {
+    content: '';
+    position: absolute; inset: -20px;
+    background-image: var(--hero-photo);
+    background-size: cover;
+    background-position: center 28%;
+    filter: blur(14px) saturate(1.05);
+    transform: scale(1.1);
+    z-index: 0;
+  }
+  #login-gate::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(150deg, rgba(20,58,44,0.88) 0%, rgba(44,107,78,0.82) 100%);
+    z-index: 1;
+  }
+  #login-gate .login-card { position: relative; z-index: 2; }
+  .login-card {
+    background: var(--paper-2); border-radius: var(--radius-lg); padding: 28px;
+    max-width: 380px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .login-card h2 { font-size: 20px; margin-bottom: 4px; }
+  .login-card .sub { font-size: 13px; color: var(--ink-dim); margin-bottom: 18px; }
+  .login-form { display: none; }
+  .login-form.active { display: block; }
+  .login-form .field { margin-bottom: 12px; }
+  .login-form label { display: block; font-size: 12px; color: var(--ink-dim); margin-bottom: 5px; }
+  .login-form input {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--paper); color: var(--ink); font-family: inherit; font-size: 14px;
+  }
+  .login-hint { font-size: 11.5px; color: var(--ink-dim); margin-top: 12px; line-height: 1.5; background: var(--paper); padding: 10px 12px; border-radius: var(--radius-sm); }
+  .login-error { font-size: 12.5px; color: var(--red); margin-top: 8px; display: none; }
+  .login-error.show { display: block; }
+  .app-hidden { display: none !important; }
+
+  table.sched { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.sched th { text-align: left; color: var(--ink-dim); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.03em; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  table.sched td { padding: 9px 8px; border-bottom: 1px solid var(--line); }
+  table.sched tr:last-child td { border-bottom: none; }
+  .pill { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+  .pill.live { background: var(--green-soft); color: var(--green); }
+  .pill.done { background: var(--paper); color: var(--ink-dim); border: 1px solid var(--line); }
+
+  .grade-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .grade-row:last-child { border-bottom: none; }
+  .grade-row .course { font-weight: 600; }
+  .grade-row .course small { display: block; font-weight: 400; color: var(--ink-dim); font-size: 12px; }
+  .grade-letter { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--green); }
+
+  .progress-row { margin-bottom: 14px; }
+  .progress-row:last-child { margin-bottom: 0; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .progress-label .pct { font-weight: 700; }
+  .progress-track { height: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--ink); border-radius: 999px; }
+  .progress-fill.gold { background: var(--gold); }
+
+  .announce { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .announce:last-child { border-bottom: none; }
+  .announce .tag { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+  .announce .txt { margin-top: 2px; color: var(--ink-2); }
+
+  /* Honors + calculator */
+  .honors-card {
+    background: linear-gradient(150deg, var(--ink) 0%, var(--ink-2) 100%);
+    color: var(--paper); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+  }
+  .honors-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+  .honors-top .cap { font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.04em; }
+  .honors-gpa { font-family: 'Fraunces', serif; font-size: 44px; font-weight: 600; line-height: 1; }
+  .honors-range {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+    background: rgba(245,241,230,0.12); padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  }
+  .honors-range .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .honors-next { font-size: 13px; opacity: 0.85; margin-top: 14px; line-height: 1.5; }
+  .honors-note { font-size: 11.5px; opacity: 0.65; margin-top: 12px; line-height: 1.5; border-top: 1px solid rgba(245,241,230,0.15); padding-top: 12px; }
+
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--ink-dim); margin-bottom: 5px; }
+  .field input {
+    width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--paper); color: var(--ink); font-family: inherit; font-size: 14px;
+  }
+  .field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .calc-result {
+    background: var(--paper); border: 1px dashed var(--line); border-radius: var(--radius-sm);
+    padding: 13px; font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
+  }
+  .calc-result b { color: var(--ink); }
+  .calc-result.impossible { color: var(--red); }
+
+  .valedictorian-note {
+    font-size: 12px; color: var(--ink-dim); line-height: 1.5; margin-top: 12px;
+    background: var(--paper); border-radius: var(--radius-sm); padding: 11px 13px; border: 1px solid var(--line);
+  }
+
+  /* ================= ADMISSIONS ================= */
+  .app-id-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+  .app-id { font-family: 'Fraunces', serif; font-size: 15px; }
+  .app-id b { font-weight: 700; }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); }
+  .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+  .steps { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }
+  .step-chip {
+    flex: 1; min-width: 84px; text-align: center; font-size: 11.5px; font-weight: 600;
+    padding: 8px 4px; border-radius: var(--radius-sm); background: var(--paper); color: var(--ink-dim);
+    border: 1px solid var(--line);
+  }
+  .step-chip.done { background: var(--green-soft); color: var(--green); border-color: transparent; }
+  .step-chip.current { background: var(--ink); color: var(--paper); border-color: transparent; }
+
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { display: flex; gap: 12px; padding: 0 0 22px; position: relative; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li:not(:last-child)::before {
+    content: ''; position: absolute; left: 10px; top: 24px; bottom: 0; width: 1px; background: var(--line);
+  }
+  .t-dot { width: 21px; height: 21px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-top: 1px; }
+  .t-dot.done { background: var(--green); color: var(--paper-2); }
+  .t-dot.active { background: var(--gold); color: #1a1305; }
+  .t-dot.pending { background: var(--paper); border: 1px solid var(--line); color: var(--ink-dim); }
+  .t-body b { display: block; font-size: 13.5px; }
+  .t-body span { font-size: 12px; color: var(--ink-dim); }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .form-grid .field.full { grid-column: 1 / -1; }
+
+  /* ================= REGISTRATION ================= */
+  .reg-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; align-items: start; }
+  .search-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+  .search-bar input, .search-bar select {
+    padding: 9px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--paper-2); color: var(--ink); font-family: inherit; font-size: 13.5px;
+  }
+  .search-bar input { flex: 1; }
+  .course-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-md);
+    background: var(--paper-2); margin-bottom: 8px;
+  }
+  .course-row .info b { font-size: 13.5px; display: block; }
+  .course-row .info span { font-size: 12px; color: var(--ink-dim); }
+  .btn-add { background: var(--ink); color: var(--paper); border: none; }
+  .btn-remove { background: var(--red-soft); color: var(--red); border: none; }
+  .conflict-warn { background: var(--red-soft); color: var(--red); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12.5px; margin-top: 10px; display: none; }
+  .conflict-warn.show { display: block; }
+  .cart-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .cart-row:last-of-type { border-bottom: none; }
+  .cart-total { display: flex; justify-content: space-between; padding-top: 12px; margin-top: 6px; border-top: 2px solid var(--ink); font-weight: 700; font-size: 14.5px; }
+  .empty-note { color: var(--ink-dim); font-size: 13px; text-align: center; padding: 18px 0; }
+
+  /* ================= FINANCE ================= */
+  .balance-card {
+    background: linear-gradient(150deg, var(--ink) 0%, var(--ink-2) 100%);
+    color: var(--paper); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px;
+  }
+  .balance-card .cap { font-size: 12px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.04em; }
+  .balance-card .amt { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 600; margin: 6px 0 4px; }
+  .balance-card .due { font-size: 12.5px; opacity: 0.75; }
+  .ledger-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .ledger-row:last-child { border-bottom: none; }
+  .ledger-row .desc small { display: block; color: var(--ink-dim); font-size: 11.5px; margin-top: 1px; }
+  .ledger-row .amt-pos { color: var(--red); font-weight: 600; }
+  .ledger-row .amt-neg { color: var(--green); font-weight: 600; }
+  .scholar-card { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px; margin-bottom: 10px; }
+  .scholar-card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .scholar-card .name { font-weight: 700; font-size: 14px; }
+  .scholar-card .meta { font-size: 12px; color: var(--ink-dim); margin-top: 3px; line-height: 1.5; }
+  .status-tag { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .status-tag.eligible { background: var(--green-soft); color: var(--green); }
+  .status-tag.applied { background: var(--amber-soft); color: var(--amber); }
+  .status-tag.closed { background: var(--paper); color: var(--ink-dim); border: 1px solid var(--line); }
+
+  /* ================= FACULTY ================= */
+  .course-tile {
+    border: 1px solid var(--line); border-radius: var(--radius-md); padding: 14px;
+    background: var(--paper-2); margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s;
+  }
+  .course-tile.active { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+  .course-tile .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .course-tile .code { font-weight: 700; font-size: 14px; }
+  .course-tile .n { font-size: 12px; color: var(--ink-dim); }
+  .course-tile .meta { font-size: 12px; color: var(--ink-dim); margin-top: 3px; }
+
+  .roster-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .roster-row:last-child { border-bottom: none; }
+  .roster-row .sid { color: var(--ink-dim); font-size: 12px; }
+  .att-toggle { display: flex; gap: 4px; }
+  .att-btn { border: 1px solid var(--line); background: var(--paper); color: var(--ink-dim); font-size: 11.5px; font-weight: 700; padding: 5px 10px; border-radius: var(--radius-sm); }
+  .att-btn.present.on { background: var(--green-soft); color: var(--green); border-color: transparent; }
+  .att-btn.absent.on { background: var(--red-soft); color: var(--red); border-color: transparent; }
+  .grade-select { padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); font-family: inherit; font-size: 13px; }
+
+  .advisee-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .advisee-row:last-child { border-bottom: none; }
+  .advisee-row .g { font-size: 12px; color: var(--ink-dim); }
+
+  .compose-box textarea {
+    width: 100%; min-height: 70px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--paper); color: var(--ink); font-family: inherit; font-size: 13.5px; resize: vertical; margin-bottom: 10px;
+  }
+
+  /* ================= PORTAL SUBNAV & SUBPAGES ================= */
+  .portal-subnav {
+    display: flex; gap: 4px; margin: 18px 0 20px;
+    border-bottom: 1px solid var(--line); padding-bottom: 2px;
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .portal-subnav::-webkit-scrollbar { display: none; }
+  .portal-subnav button {
+    border: none; background: transparent; color: var(--ink-dim); font-weight: 600; font-size: 13.5px;
+    padding: 9px 4px; margin-right: 18px; border-bottom: 2px solid transparent; position: relative;
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .portal-subnav button.active { color: var(--ink); border-bottom-color: var(--gold); }
+  .notif-count { background: var(--red); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 999px; margin-left: 4px; }
+  .portal-sub { display: none; }
+  .portal-sub.active { display: block; }
+
+  .doc-req-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; gap: 8px; }
+  .doc-req-row:last-child { border-bottom: none; }
+  .doc-req-row .info small { display: block; color: var(--ink-dim); font-size: 11.5px; margin-top: 2px; }
+  .doc-status { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  .doc-status.submitted { background: var(--amber-soft); color: var(--amber); }
+  .doc-status.processing { background: var(--gold-soft); color: var(--gold); }
+  .doc-status.ready { background: var(--green-soft); color: var(--green); }
+  .doc-status.completed { background: var(--paper); color: var(--ink-dim); border: 1px solid var(--line); }
+
+  .notif-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .notif-item:last-child { border-bottom: none; }
+  .notif-item:hover .notif-txt b { text-decoration: underline; }
+  .notif-cat { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--gold); flex-shrink: 0; width: 84px; padding-top: 2px; }
+  .notif-txt b { display: block; font-size: 13.5px; }
+  .notif-txt span { font-size: 12px; color: var(--ink-dim); }
+  .notif-new-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red); margin-top: 5px; flex-shrink: 0; }
+
+  .chat-msg { margin-bottom: 12px; font-size: 13.5px; line-height: 1.55; }
+  .chat-msg.user { text-align: right; }
+  .chat-msg .bubble { display: inline-block; padding: 9px 13px; border-radius: 12px; max-width: 85%; text-align: left; }
+  .chat-msg.user .bubble { background: var(--ink); color: var(--paper); }
+  .chat-msg.bot .bubble { background: var(--paper); border: 1px solid var(--line); }
+  .chat-msg .src { font-size: 11px; color: var(--ink-dim); margin-top: 4px; }
+  #assistant-thread { max-height: 360px; overflow-y: auto; }
+
+  /* ================= ADMINISTRATION ================= */
+  .module-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .module-card {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 15px; text-align: left;
+  }
+  .module-card .n { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+  .module-card .l { font-size: 12.5px; color: var(--ink-dim); margin-top: 2px; }
+  .role-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .role-chip { border: 1px solid var(--line); background: var(--paper-2); color: var(--ink-dim); font-size: 12.5px; font-weight: 600; padding: 6px 13px; border-radius: 999px; }
+  .role-chip.active { background: var(--ink); color: var(--paper); border-color: transparent; }
+  .chart-wrap svg { width: 100%; height: auto; display: block; }
+  .chart-caption { font-size: 11.5px; color: var(--ink-dim); margin-top: 8px; }
+
+  /* ================= PROFILE SUBPAGE ================= */
+  .profile-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .profile-field {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 10px 13px;
+  }
+  .profile-field .k { font-size: 11px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 3px; }
+  .profile-field .v { font-size: 14px; font-weight: 600; }
+  .profile-field.full { grid-column: 1 / -1; }
+
+  /* ================= GRADE SHEETS SUBPAGE ================= */
+  .term-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 13px 14px; border: 1px solid var(--line); border-radius: var(--radius-md);
+    background: var(--paper-2); margin-bottom: 8px; cursor: pointer;
+  }
+  .term-row .t-main b { font-size: 14px; display: block; }
+  .term-row .t-main span { font-size: 12px; color: var(--ink-dim); }
+  .term-row .t-right { display: flex; align-items: center; gap: 10px; }
+  .term-gpa { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; }
+  .term-detail {
+    display: none; border: 1px dashed var(--line); border-radius: var(--radius-md);
+    padding: 12px 14px; margin: -4px 0 10px; background: var(--paper);
+  }
+  .term-detail.open { display: block; }
+  table.grades-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.grades-tbl th { text-align: left; color: var(--ink-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.02em; padding: 6px 6px; border-bottom: 1px solid var(--line); }
+  table.grades-tbl td { padding: 7px 6px; border-bottom: 1px solid var(--line); }
+  table.grades-tbl tr:last-child td { border-bottom: none; }
+
+  /* ================= ITEMIZED LEDGER ================= */
+  .ledger-term-head { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 8px; }
+  .ledger-term-head b { font-size: 13.5px; }
+  table.ledger-tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px; }
+  table.ledger-tbl th { text-align: left; color: var(--ink-dim); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.02em; padding: 5px 6px; border-bottom: 1px solid var(--line); }
+  table.ledger-tbl td { padding: 6px 6px; border-bottom: 1px solid var(--line); }
+  table.ledger-tbl td.num { text-align: right; }
+  table.ledger-tbl tr.total-row td { border-top: 2px solid var(--ink); border-bottom: none; font-weight: 700; padding-top: 8px; }
+
+  /* ================= ADMIN COURSE MANAGER ================= */
+  .admin-course-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .admin-course-tbl th { text-align: left; color: var(--ink-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.02em; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  .admin-course-tbl td { padding: 8px 8px; border-bottom: 1px solid var(--line); }
+  .icon-btn { border: 1px solid var(--line); background: var(--paper-2); color: var(--ink-dim); font-size: 11.5px; font-weight: 700; padding: 5px 10px; border-radius: var(--radius-sm); }
+  .icon-btn.danger { color: var(--red); border-color: var(--red-soft); }
+  .file-drop {
+    border: 1.5px dashed var(--line); border-radius: var(--radius-md); padding: 16px;
+    text-align: center; font-size: 12.5px; color: var(--ink-dim); margin-bottom: 14px; cursor: pointer;
+  }
+  .file-drop:hover { border-color: var(--gold); color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .module-grid { grid-template-columns: repeat(2, 1fr); }
+    .reg-layout { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .hero-grid, .portal-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 32px; }
+    .colleges-grid, .services-grid, .stat-grid, .calc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .colleges-grid, .services-grid, .stat-grid, .calc-grid { grid-template-columns: 1fr; }
+    .hero { padding: 40px 0; }
+    .hero h1 { font-size: 27px; }
+    .search-bar { flex-wrap: wrap; }
+    .search-bar input, .search-bar select { width: 100%; }
+    .module-grid { grid-template-columns: 1fr; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .cta-row .btn, .cta-row button { width: 100%; justify-content: center; }
+    .course-row, .roster-row, .doc-req-row, .scholar-card .top { flex-wrap: wrap; }
+    .action-item { flex-wrap: wrap; }
+    .action-item .btn-sm { width: 100%; text-align: center; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+<body>
+
+<div id="login-gate">
+  <div class="login-card">
+    <h2>WVSTU Digital Campus</h2>
+    <div class="sub" id="login-subtitle">Sign in to continue <span class="badge demo" style="vertical-align:middle;"><span class="badge-dot"></span>Demo login</span></div>
+
+    <div id="login-form-student" class="login-form active">
+      <div class="field"><label for="li-username">Username</label><input id="li-username" type="text" placeholder="jamesdoe"></div>
+      <div class="field"><label for="li-password">Password</label><input id="li-password" type="password" placeholder="Password"></div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="attemptStudentLogin()">Log in</button>
+      <div class="login-error" id="student-login-error">Incorrect username or password.</div>
+      <div class="login-hint">Demo account — username <b>jamesdoe</b>, password <b>Doe@2026</b>. You can change your password once after logging in (real Supabase Auth now, not stored in-app).</div>
+    </div>
+
+    <div id="login-form-faculty" class="login-form">
+      <div class="field"><label for="li-faculty-username">Email</label><input id="li-faculty-username" type="text" placeholder="dr.nyema@wvstu.edu.lr"></div>
+      <div class="field"><label for="li-faculty-password">Password</label><input id="li-faculty-password" type="password" placeholder="Password"></div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="attemptFacultyLogin()">Log in</button>
+      <div class="login-error" id="faculty-login-error">Incorrect password.</div>
+      <div class="login-hint">Demo account — email <b>dr.nyema@wvstu.edu.lr</b>, password <b>FACULTY2026</b>.</div>
+    </div>
+
+    <div id="login-form-admin" class="login-form">
+      <div class="field"><label for="li-admin-username">Email</label><input id="li-admin-username" type="text" placeholder="admin@wvstu.edu.lr"></div>
+      <div class="field"><label for="li-admin-password">Password</label><input id="li-admin-password" type="password" placeholder="Password"></div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="attemptAdminLogin()">Log in</button>
+      <div class="login-error" id="admin-login-error">Incorrect password.</div>
+      <div class="login-hint">Demo account — email <b>admin@wvstu.edu.lr</b>, password <b>ADMIN2026</b>.</div>
+    </div>
+  </div>
+</div>
+
+<div id="app-root" class="app-hidden">
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#" onclick="return false;">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <div class="name">WVSTU Digital Campus</div>
+        <div class="sub">William V. S. Tubman University — concept</div>
+      </div>
+    </a>
+    <div class="tabswitch" role="tablist">
+      <button id="tab-home" class="active" onclick="showView('home')">Public Site</button>
+      <button id="tab-portal" onclick="showView('portal')">Student Portal</button>
+      <button id="tab-admissions" onclick="showView('admissions')">Admissions</button>
+      <button id="tab-curriculum" onclick="showView('curriculum')">Curriculum</button>
+      <button id="tab-registration" onclick="showView('registration')">Registration</button>
+      <button id="tab-finance" onclick="showView('finance')">Finance</button>
+      <button id="tab-faculty" onclick="showView('faculty')">Faculty</button>
+      <button id="tab-admin" onclick="showView('admin')">Administration</button>
+    </div>
+    <button class="btn-sm" style="flex-shrink:0;" onclick="logOut()">Log out</button>
+  </div>
+</div>
+
+<!-- ============ PUBLIC HOME ============ -->
+<section id="view-home" class="view active">
+
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow-badge"><span class="badge-dot" style="background:var(--gold)"></span> Unified Student, Academic &amp; University Services Platform</div>
+        <h1>One university.<br>One digital experience.</h1>
+        <p class="lede">Connect with your academic journey, university services, and campus information from one modern digital platform — from admissions to graduation.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#" onclick="return false;">Apply to WVSTU</a>
+          <a class="btn btn-secondary" href="#" onclick="return false;">Explore Programs</a>
+          <button class="btn btn-secondary" onclick="showView('portal')">Student Login</button>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="cap">University at a glance <span class="badge verified"><span class="badge-dot"></span>Verified public info</span></div>
+        <div class="fact-row"><span class="k">Location</span><span class="v">Harper, Maryland County, Liberia</span></div>
+        <div class="fact-row"><span class="k">Chartered as university</span><span class="v">2009</span></div>
+        <div class="fact-row"><span class="k">Colleges</span><span class="v">6</span></div>
+        <div class="fact-row"><span class="k">Mascot</span><span class="v">Phoenix</span></div>
+        <div class="fact-row"><span class="k">President</span><span class="v">Dr. Olu Q. Menjay</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Colleges</h2>
+          <div class="desc">The six academic colleges overseen by the Office of the Vice President for Academic Affairs.</div>
+        </div>
+        <span class="badge verified"><span class="badge-dot"></span>Verified</span>
+      </div>
+      <div class="colleges-grid">
+        <div class="college-card"><div class="num">01</div><h3>College of Agriculture &amp; Food Science</h3></div>
+        <div class="college-card"><div class="num">02</div><h3>College of Arts &amp; Sciences</h3></div>
+        <div class="college-card"><div class="num">03</div><h3>College of Business &amp; Administration</h3></div>
+        <div class="college-card"><div class="num">04</div><h3>College of Education</h3></div>
+        <div class="college-card"><div class="num">05</div><h3>College of Engineering &amp; Technology</h3></div>
+        <div class="college-card"><div class="num">06</div><h3>College of Health Sciences</h3></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2>Digital Campus services</h2>
+          <div class="desc">Concept modules this platform would bring together in one place.</div>
+        </div>
+        <span class="badge proposed"><span class="badge-dot"></span>Proposed features</span>
+      </div>
+      <div class="services-grid">
+        <div class="service-card"><div class="t">Admissions</div><div class="d">Multi-step application with live status tracking.</div></div>
+        <div class="service-card"><div class="t">Academics</div><div class="d">Registration, schedule, grades, degree progress.</div></div>
+        <div class="service-card"><div class="t">Finance</div><div class="d">Balance, scholarships, receipts, statements.</div></div>
+        <div class="service-card"><div class="t">Documents</div><div class="d">Transcript, verification &amp; certificate requests.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div class="disclaimer">
+        <strong>This is a demonstration / prototype concept</strong> built to show how WVSTU's public information and digital services could be unified in one experience. It is <strong>not an official William V. S. Tubman University system</strong> and has no connection to WVSTU's actual databases. Institutional facts above (location, colleges, founding, leadership) are drawn from WVSTU's public materials and Wikipedia; all student, financial, grade, and transcript data elsewhere in this prototype is clearly marked <strong>DEMO DATA</strong> and is entirely fictional.
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- ============ STUDENT PORTAL ============ -->
+<section id="view-portal" class="view">
+  <div class="wrap">
+
+    <div class="portal-head">
+      <div class="portal-greet">
+        <div>
+          <h2>Good morning, James 👋</h2>
+          <div class="meta">BSc Computer Science · College of Engineering &amp; Technology · Level 400 &nbsp;<span class="badge demo"><span class="badge-dot"></span>Demo account</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portal-subnav">
+      <button id="psub-overview" class="active" onclick="showPortalSub('overview')">Overview</button>
+      <button id="psub-profile" onclick="showPortalSub('profile')">Profile</button>
+      <button id="psub-grades" onclick="showPortalSub('grades')">Grade Sheets</button>
+      <button id="psub-documents" onclick="showPortalSub('documents')">Documents</button>
+      <button id="psub-notifications" onclick="showPortalSub('notifications')">Notifications <span id="notif-count-badge" class="notif-count" style="display:none;"></span></button>
+      <button id="psub-assistant" onclick="showPortalSub('assistant')">Ask WVSTU Assistant</button>
+    </div>
+
+    <!-- ---- OVERVIEW ---- -->
+    <div id="portal-sub-overview" class="portal-sub active">
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="label">Cumulative GPA</div><div class="value" id="stat-gpa">3.78</div><div class="sub" id="stat-gpa-sub">Summa Cum Laude range</div></div>
+        <div class="stat-card"><div class="label">Credits earned</div><div class="value" id="stat-credits">106</div><div class="sub">of 132 required</div></div>
+        <div class="stat-card"><div class="label">Academic standing</div><div class="value" style="font-size:20px;">Good standing</div><div class="sub">No holds on file</div></div>
+        <div class="stat-card"><div class="label">Financial balance</div><div class="value" id="stat-finance-balance">$465</div><div class="sub">Due before finals</div></div>
+      </div>
+
+      <div class="portal-grid">
+        <div>
+
+          <div class="card">
+            <h3>Action required</h3>
+            <div class="action-item">
+              <div class="txt"><b>Course registration closes in 3 days.</b><span>Fall semester registration ends Sept 22.</span></div>
+              <button class="btn-sm" onclick="showView('registration')">Complete registration</button>
+            </div>
+            <div class="action-item">
+              <div class="txt"><b>Financial clearance pending.</b><span>Balance of $200 outstanding.</span></div>
+              <button class="btn-sm" onclick="showView('finance')">View statement</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Today's schedule <span class="badge demo"><span class="badge-dot"></span>Demo</span></h3>
+            <div class="table-scroll">
+            <table class="sched">
+              <tr><th>Time</th><th>Course</th><th>Location</th><th></th></tr>
+              <tr><td>8:00 AM</td><td>CSC 401 — Distributed Systems</td><td>EBA 204</td><td><span class="pill done">Done</span></td></tr>
+              <tr><td>11:00 AM</td><td>CSC 415 — Software Engineering</td><td>EBA 110</td><td><span class="pill live">In progress</span></td></tr>
+              <tr><td>2:00 PM</td><td>MTH 305 — Numerical Methods</td><td>Main Hall 3</td><td><span class="pill">Upcoming</span></td></tr>
+            </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Recent grades <span class="badge demo"><span class="badge-dot"></span>Live from Faculty Portal</span></h3>
+            <div id="recent-grades-list"></div>
+          </div>
+
+        </div>
+
+        <div>
+
+          <div class="honors-card">
+            <div class="honors-top">
+              <div>
+                <div class="cap">Academic recognition</div>
+                <div class="honors-gpa" id="honors-gpa">3.78</div>
+              </div>
+              <span class="badge proposed" style="background:rgba(245,241,230,0.12); color:var(--paper); border-color:rgba(245,241,230,0.25);">GPA / Honors engine</span>
+            </div>
+            <div class="honors-range" id="honors-range"><span class="dot"></span> Summa Cum Laude range</div>
+            <div class="honors-next" id="honors-next">You're 0.22 points from a perfect 4.00 President's List semester GPA.</div>
+            <div class="honors-note">Ranges shown reflect the GPA bands supplied in this project's specification and are treated as unverified against WVSTU's official published policy until confirmed with a source URL. This is a recognition indicator, not a guarantee of any award.</div>
+          </div>
+
+          <div class="card">
+            <h3>Target GPA calculator</h3>
+            <div class="calc-grid">
+              <div class="field"><label for="c-current">Current cumulative GPA</label><input id="c-current" type="number" step="0.01" min="0" max="4" value="3.78"></div>
+              <div class="field"><label for="c-target">Target GPA</label><input id="c-target" type="number" step="0.01" min="0" max="4" value="4.00"></div>
+              <div class="field"><label for="c-completed">Credits completed</label><input id="c-completed" type="number" step="1" min="0" value="106"></div>
+              <div class="field"><label for="c-remaining">Credits remaining</label><input id="c-remaining" type="number" step="1" min="1" value="26"></div>
+            </div>
+            <div class="calc-result" id="calc-result"></div>
+          </div>
+
+          <div class="card">
+            <h3>Degree progress</h3>
+            <div class="progress-row">
+              <div class="progress-label"><span>General Education</span><span class="pct">100%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span>Major Requirements</span><span class="pct">82%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:82%"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span>Electives</span><span class="pct">60%</span></div>
+              <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label"><span><b>Overall degree</b></span><span class="pct" id="overall-degree-pct">68%</span></div>
+              <div class="progress-track"><div class="progress-fill gold" id="overall-degree-fill" style="width:68%"></div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Announcements <span class="badge demo"><span class="badge-dot"></span>Live from Faculty Portal</span></h3>
+            <div id="portal-announce-list"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="valedictorian-note">
+        <b>Valedictorian information:</b> Valedictorian selection may depend on university rules, graduating-class academic performance, and other applicable criteria. A high GPA alone is not represented here as a guaranteed qualification.
+      </div>
+
+    </div>
+
+    <!-- ---- PROFILE ---- -->
+    <div id="portal-sub-profile" class="portal-sub">
+      <div class="card">
+        <h3>Student profile <span class="badge demo"><span class="badge-dot"></span>Demo record</span></h3>
+        <div class="profile-grid">
+          <div class="profile-field"><div class="k">Student ID</div><div class="v">2260142</div></div>
+          <div class="profile-field"><div class="k">Full name</div><div class="v">James Kollie Doe</div></div>
+          <div class="profile-field"><div class="k">Date of birth</div><div class="v">2004-03-12</div></div>
+          <div class="profile-field"><div class="k">Gender</div><div class="v">Male</div></div>
+          <div class="profile-field"><div class="k">Nationality</div><div class="v">Liberia</div></div>
+          <div class="profile-field"><div class="k">County of origin</div><div class="v">Maryland</div></div>
+          <div class="profile-field full"><div class="k">Home address</div><div class="v">Harper, Maryland County</div></div>
+          <div class="profile-field"><div class="k">Cell number</div><div class="v">077 712 4456</div></div>
+          <div class="profile-field"><div class="k">Email address</div><div class="v">jamesdoe@wvstu.edu.lr</div></div>
+          <div class="profile-field"><div class="k">College</div><div class="v">Engineering &amp; Technology</div></div>
+          <div class="profile-field"><div class="k">Major</div><div class="v">Computer Science</div></div>
+          <div class="profile-field"><div class="k">Minor</div><div class="v">Mathematics</div></div>
+          <div class="profile-field"><div class="k">Academic status</div><div class="v">Senior</div></div>
+          <div class="profile-field"><div class="k">Credits completed</div><div class="v" id="profile-credits-completed">106</div></div>
+          <div class="profile-field"><div class="k">Year of entry</div><div class="v">2022/2023</div></div>
+          <div class="profile-field"><div class="k">Semester of entry</div><div class="v">1</div></div>
+        </div>
+        <div class="cta-row" style="margin-top:16px;">
+          <button class="btn btn-secondary" onclick="changeStudentPassword()">Change password</button>
+        </div>
+        <div class="login-hint" style="margin-top:10px;">You can change your password once. After that, only an administrator can reset it.</div>
+      </div>
+    </div>
+
+    <!-- ---- GRADE SHEETS ---- -->
+    <div id="portal-sub-grades" class="portal-sub">
+      <div class="card">
+        <h3>Grade sheets <span class="badge demo"><span class="badge-dot"></span>Demo history</span></h3>
+        <div class="desc" style="margin-bottom:14px;">Tap a semester to see the course-by-course breakdown.</div>
+        <div id="term-list"></div>
+      </div>
+    </div>
+
+    <!-- ---- DOCUMENTS ---- -->
+    <div id="portal-sub-documents" class="portal-sub">
+      <div class="portal-grid" style="grid-template-columns: 1fr 1.2fr;">
+        <div class="card">
+          <h3>Request a document</h3>
+          <div class="field" style="margin-bottom:10px;">
+            <label for="doc-type">Document type</label>
+            <select id="doc-type" onchange="onDocTypeChange()" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+              <option>Official Transcript</option>
+              <option>Degree Verification</option>
+              <option>Enrollment Verification</option>
+              <option>Other Authorized Document</option>
+            </select>
+          </div>
+          <div id="doc-eligibility-note" class="disclaimer" style="margin-bottom:10px; font-size:12px;"></div>
+          <div id="doc-special-block" style="display:none; margin-bottom:10px;">
+            <label style="display:flex; align-items:flex-start; gap:8px; font-size:12.5px; margin-bottom:8px;">
+              <input type="checkbox" id="doc-special-check" onchange="toggleSpecialReason()" style="margin-top:2px;">
+              This is for a <b>Transfer</b> or <b>Scholarship/Travel</b> opportunity
+            </label>
+            <div id="doc-special-reason" style="display:none;">
+              <textarea id="doc-special-text" placeholder="Briefly explain the transfer or scholarship/travel opportunity…" style="width:100%;min-height:60px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;font-size:13px;"></textarea>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="requestDocument()">Submit request</button>
+          <div class="disclaimer" style="margin-top:14px; font-size:11.5px;">Any document generated by this prototype is a <strong>DEMONSTRATION DOCUMENT</strong> and is not an official WVSTU record. Official Transcript and Degree Verification requests are limited to <strong>3 total</strong> per student.</div>
+        </div>
+        <div class="card">
+          <h3>My requests</h3>
+          <div id="doc-request-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---- NOTIFICATIONS ---- -->
+    <div id="portal-sub-notifications" class="portal-sub">
+      <div class="card">
+        <h3>Notification center <span class="badge demo"><span class="badge-dot"></span>Live feed</span></h3>
+        <div class="desc" style="margin-bottom:14px;">Tap a notification to jump to where it's handled.</div>
+        <div id="notif-list"></div>
+      </div>
+    </div>
+
+    <!-- ---- ASSISTANT ---- -->
+    <div id="portal-sub-assistant" class="portal-sub">
+      <div class="card">
+        <h3>WVSTU Digital Assistant <span class="badge proposed"><span class="badge-dot"></span>Proposed feature</span></h3>
+        <div class="desc" style="margin-bottom:14px;">Answers from an approved knowledge base only — it will say so plainly when something isn't verified.</div>
+        <div class="cta-row" style="margin-bottom:14px; flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="askAssistant('What is the GPA range for Deans List?')">Dean's List GPA range?</button>
+          <button class="btn btn-secondary" onclick="askAssistant('How do I request a transcript?')">Request a transcript?</button>
+          <button class="btn btn-secondary" onclick="askAssistant('What colleges does WVSTU have?')">What colleges exist?</button>
+          <button class="btn btn-secondary" onclick="askAssistant('When is the tuition deadline?')">Tuition deadline?</button>
+        </div>
+        <div class="search-bar" style="margin-bottom:14px;">
+          <input id="assistant-input" type="text" placeholder="Ask a question…" onkeydown="if(event.key==='Enter'){askAssistant(document.getElementById('assistant-input').value); document.getElementById('assistant-input').value='';}">
+          <button class="btn btn-primary" onclick="askAssistant(document.getElementById('assistant-input').value); document.getElementById('assistant-input').value='';">Ask</button>
+        </div>
+        <div id="assistant-thread"></div>
+      </div>
+    </div>
+
+    <div style="height:40px"></div>
+  </div>
+</section>
+
+<!-- ============ ADMISSIONS ============ -->
+<section id="view-admissions" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="section-head">
+      <div>
+        <h2>Admissions</h2>
+        <div class="desc">Multi-step application experience, shown mid-flow with a demo status tracker.</div>
+      </div>
+      <span class="badge demo"><span class="badge-dot"></span>Demo application</span>
+    </div>
+
+    <div class="app-id-row">
+      <div class="app-id">Application <b>#WVSTU-DEMO-2026-001</b></div>
+      <span class="status-pill"><span class="dot"></span> Under Review</span>
+    </div>
+
+    <div class="portal-grid" style="grid-template-columns: 1.3fr 1fr;">
+      <div>
+        <div class="card">
+          <h3>Application steps</h3>
+          <div class="steps">
+            <div class="step-chip done">1 Account</div>
+            <div class="step-chip done">2 Personal</div>
+            <div class="step-chip done">3 Education</div>
+            <div class="step-chip done">4 WASSCE</div>
+            <div class="step-chip current">5 Program</div>
+            <div class="step-chip">6 Documents</div>
+            <div class="step-chip">7 Review</div>
+            <div class="step-chip">8 Submit</div>
+          </div>
+
+          <h3 style="margin-top:4px;">Step 5 — Program selection <span class="badge demo"><span class="badge-dot"></span>Locked after first save</span></h3>
+          <div class="disclaimer" style="margin-bottom:14px; font-size:12px;">
+            WVSTU runs two terms per year — <strong>Semester I</strong> (begins around August 26) and <strong>Semester II</strong> — not Fall/Winter. Once a program is selected and saved, it cannot be changed by the student; a change before Sophomore standing must be requested through the Registrar/Admissions Office.
+          </div>
+          <div class="form-grid">
+            <div class="field"><label>College</label>
+              <select id="adm-college" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+                <option>College of Engineering &amp; Technology</option>
+                <option>College of Arts &amp; Sciences</option>
+                <option>College of Business &amp; Administration</option>
+                <option>College of Education</option>
+                <option>College of Health Sciences</option>
+                <option>College of Agriculture &amp; Food Science</option>
+              </select>
+            </div>
+            <div class="field"><label>Program</label>
+              <select id="adm-program" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+                <option>BSc Computer Science</option>
+                <option>BSc Civil Engineering</option>
+                <option>BSc Electrical Engineering</option>
+              </select>
+            </div>
+            <div class="field"><label>Intended entry term</label>
+              <select style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+                <option>Semester I, 2026/2027 (begins ~Aug 26, 2026)</option>
+                <option>Semester II, 2026/2027</option>
+              </select>
+            </div>
+            <div class="field"><label>Mode of study</label>
+              <select style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+                <option>Full-time</option>
+                <option>Part-time</option>
+              </select>
+            </div>
+          </div>
+          <div class="cta-row" style="margin-bottom:24px;">
+            <button class="btn btn-secondary">Back</button>
+            <button class="btn btn-primary" onclick="saveProgramSelection()">Save &amp; continue to documents</button>
+          </div>
+
+          <h3>Step 6 — Documents <span class="badge demo"><span class="badge-dot"></span>PDF only</span></h3>
+          <div class="disclaimer" style="margin-bottom:14px; font-size:12px;">
+            Upload scanned copies of your WASSCE/LSHCE results and supporting documents. <strong>Only PDF files are accepted</strong> — the system will reject any other format. Each upload must be approved by Admissions before your "Documents received" step is checked off below.
+          </div>
+          <div class="file-drop" onclick="document.getElementById('adm-doc-input').click();">
+            📎 Click to upload a document (.pdf only)
+            <input type="file" id="adm-doc-input" accept="application/pdf" style="display:none;" onchange="handleAdmissionUpload(event)">
+          </div>
+          <div id="adm-doc-list"></div>
+        </div>
+      </div>
+
+
+      <div>
+        <div class="card">
+          <h3>Status timeline</h3>
+          <ul class="timeline">
+            <li><div class="t-dot done">✓</div><div class="t-body"><b>Application submitted</b><span>Sept 2, 2026</span></div></li>
+            <li id="timeline-docs-item"><div class="t-dot pending" id="timeline-docs-dot">○</div><div class="t-body"><b>Documents received</b><span id="timeline-docs-sub">Awaiting admin approval</span></div></li>
+            <li><div class="t-dot pending">○</div><div class="t-body"><b>Admissions review</b><span>Not started</span></div></li>
+            <li><div class="t-dot pending">○</div><div class="t-body"><b>Decision</b><span>Pending</span></div></li>
+            <li><div class="t-dot pending">○</div><div class="t-body"><b>Enrollment</b><span>Pending</span></div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Admission requirements <span class="badge proposed"><span class="badge-dot"></span>Reference only</span></h3>
+          <div style="font-size:13px;color:var(--ink-dim);line-height:1.6;">
+            Requirements shown in a full build would reflect WVSTU's published admissions criteria (WASSCE/LSHCE results, application form, supporting documents, and any program-specific prerequisites), sourced and dated per the verification system in the spec.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:20px"></div>
+  </div>
+</section>
+
+<!-- ============ REGISTRATION ============ -->
+<section id="view-curriculum" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="section-head">
+      <div>
+        <h2>Curriculum</h2>
+        <div class="desc">Every course offered this semester, across all six colleges, in one place.</div>
+      </div>
+      <span class="badge demo"><span class="badge-dot"></span>Demo catalog</span>
+    </div>
+
+    <div class="card">
+      <div class="search-bar">
+        <input id="course-search" type="text" placeholder="Search by course code or title…" oninput="renderCatalog()">
+        <select id="college-filter" onchange="renderCatalog()">
+          <option value="">All colleges</option>
+          <option>Agriculture &amp; Food Science</option>
+          <option>Arts &amp; Sciences</option>
+          <option>Business &amp; Administration</option>
+          <option>Education</option>
+          <option>Engineering &amp; Technology</option>
+          <option>Health Sciences</option>
+        </select>
+      </div>
+      <div id="catalog-list"></div>
+    </div>
+
+    <div style="height:20px"></div>
+    <div class="cta-row"><button class="btn btn-primary" onclick="showView('registration')">Go to registration summary</button></div>
+
+    <div style="height:30px"></div>
+  </div>
+</section>
+
+<!-- ============ REGISTRATION ============ -->
+<section id="view-registration" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="section-head">
+      <div>
+        <h2>Registration</h2>
+        <div class="desc">Review the courses you've added from the Curriculum, then confirm.</div>
+      </div>
+      <span class="badge demo"><span class="badge-dot"></span>Demo</span>
+    </div>
+
+    <div class="reg-layout" style="grid-template-columns: 1fr;">
+      <div class="card" style="max-width:520px;">
+        <h3>Registration summary</h3>
+        <div id="cart-list"><div class="empty-note">No courses added yet. Browse the curriculum and add a section.</div></div>
+        <div class="cart-total" id="cart-total" style="display:none;">
+          <span>Total credits</span><span id="cart-credits">0</span>
+        </div>
+        <div class="conflict-warn" id="conflict-warn"></div>
+        <div class="conflict-warn" id="credit-warn"></div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:14px;" onclick="confirmRegistration()">Confirm registration</button>
+        <div class="cta-row" style="margin-top:10px;"><button class="btn btn-secondary" onclick="showView('curriculum')">Browse the curriculum</button></div>
+      </div>
+    </div>
+
+    <div style="height:30px"></div>
+  </div>
+</section>
+
+<!-- ============ FINANCE ============ -->
+<section id="view-finance" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="section-head">
+      <div>
+        <h2>Finance &amp; scholarships</h2>
+        <div class="desc">Student account balance, transaction history, and scholarship eligibility.</div>
+      </div>
+      <span class="badge demo"><span class="badge-dot"></span>Demo transactions</span>
+    </div>
+
+    <div class="portal-grid" style="grid-template-columns: 1fr 1.1fr;">
+      <div>
+        <div class="balance-card">
+          <div class="cap">Current balance</div>
+          <div class="amt" id="finance-balance-amt">$465</div>
+          <div class="due">Due before final exams begin — Dec 5, 2026</div>
+        </div>
+
+        <div class="card">
+          <h3>Financial ledger <span class="badge demo"><span class="badge-dot"></span>Demo</span></h3>
+          <div class="ledger-term-head"><b>Semester I, 2026/2027</b><span style="font-size:12px;color:var(--ink-dim);">Charged Aug 15, 2026</span></div>
+          <div class="table-scroll">
+          <table class="ledger-tbl">
+            <tr><th>Item</th><th class="num">Debit</th><th class="num">Credit</th><th class="num">Balance</th></tr>
+            <tr><td>Tuition</td><td class="num">$800.00</td><td class="num"></td><td class="num">$800.00</td></tr>
+            <tr><td>Registration Fee</td><td class="num">$50.00</td><td class="num"></td><td class="num">$850.00</td></tr>
+            <tr><td>Technology Fee</td><td class="num">$60.00</td><td class="num"></td><td class="num">$910.00</td></tr>
+            <tr><td>Computer Laboratory</td><td class="num">$40.00</td><td class="num"></td><td class="num">$950.00</td></tr>
+            <tr><td>Student Activity</td><td class="num">$30.00</td><td class="num"></td><td class="num">$980.00</td></tr>
+            <tr><td>I.D. Card</td><td class="num">$20.00</td><td class="num"></td><td class="num">$1,000.00</td></tr>
+            <tr><td>Handbook</td><td class="num">$20.00</td><td class="num"></td><td class="num">$1,020.00</td></tr>
+            <tr><td>Health</td><td class="num">$15.00</td><td class="num"></td><td class="num">$1,035.00</td></tr>
+            <tr><td>Breakage Fees</td><td class="num">$15.00</td><td class="num"></td><td class="num">$1,050.00</td></tr>
+            <tr><td>Education</td><td class="num">$15.00</td><td class="num"></td><td class="num">$1,065.00</td></tr>
+            <tbody id="ledger-dynamic-rows"></tbody>
+          </table>
+          </div>
+          <div class="cta-row" style="margin-top:4px;">
+            <button class="btn btn-secondary">View statement</button>
+            <button class="btn btn-secondary" onclick="downloadReceipt()">Download receipt</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Make a payment <span class="badge demo"><span class="badge-dot"></span>Ecobank only</span></h3>
+          <div class="disclaimer" style="margin-bottom:12px; font-size:12px;">
+            WVSTU accepts tuition payments <strong>only by bank transfer to the school's Ecobank account</strong> (Ecobank Liberia, Account: WVSTU-DEMO-000123). After transferring, submit the amount and your Ecobank reference number below — an administrator will verify it against the bank statement before it's applied to your account.
+          </div>
+          <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="field"><label>Amount paid (USD)</label><input id="pay-amount" type="number" placeholder="150" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+            <div class="field"><label>Ecobank reference number</label><input id="pay-ref" type="text" placeholder="ECB2026091500123" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+          </div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="submitEcobankPayment()">Submit for verification</button>
+          <div style="margin-top:14px;">
+            <div class="desc" style="margin-bottom:8px;">Pending verification</div>
+            <div id="pending-payments-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3>Scholarship center <span class="badge demo"><span class="badge-dot"></span>Live — set by Administration</span></h3>
+          <div id="scholarship-list"></div>
+        </div>
+        <div class="card">
+          <h3>Financial clearance</h3>
+          <div class="progress-row">
+            <div class="progress-label"><span>Tuition cleared</span><span class="pct" id="clearance-pct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="clearance-fill" style="width:0%"></div></div>
+          </div>
+          <div class="txt" style="font-size:13px;color:var(--ink-dim);line-height:1.6; margin-top:10px;" id="clearance-note">
+            You need at least <strong>75%</strong> of tuition cleared to complete registration.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:30px"></div>
+  </div>
+</section>
+
+<!-- ============ FACULTY ============ -->
+<section id="view-faculty" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="portal-greet" style="margin-bottom:10px;">
+      <div>
+        <h2 id="faculty-name-heading">Welcome, Dr. Nyema</h2>
+        <div class="meta">Department of Computer Science · College of Engineering &amp; Technology &nbsp;<span class="badge demo"><span class="badge-dot"></span>Demo faculty account</span></div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="label">Assigned courses</div><div class="value">3</div><div class="sub">Fall 2026</div></div>
+      <div class="stat-card"><div class="label">Total students</div><div class="value">67</div><div class="sub">across all sections</div></div>
+      <div class="stat-card"><div class="label">Grades pending</div><div class="value">1</div><div class="sub">CSC 415 midterm</div></div>
+      <div class="stat-card"><div class="label">Advisees</div><div class="value">9</div><div class="sub">BSc Computer Science</div></div>
+    </div>
+
+    <div class="portal-grid" style="grid-template-columns: 0.9fr 1.4fr;">
+      <div>
+        <div class="card">
+          <h3>My courses</h3>
+          <div id="faculty-course-list"><div class="empty-note">Loading…</div></div>
+        </div>
+
+        <div class="card">
+          <h3>Advisees</h3>
+          <div class="advisee-row"><span>James Doe</span><span class="g">GPA 3.78</span></div>
+          <div class="advisee-row"><span>Grace Toe</span><span class="g">GPA 3.41</span></div>
+          <div class="advisee-row"><span>Samuel Freeman</span><span class="g">GPA 2.96</span></div>
+          <div class="advisee-row"><span>+6 more</span><span class="g"></span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h3 id="faculty-course-title">CSC 415 — Attendance <span class="badge demo"><span class="badge-dot"></span>Today's session</span></h3>
+          <div id="attendance-list"></div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:14px;" onclick="submitAttendance()">Save attendance</button>
+        </div>
+
+        <div class="card">
+          <h3>Grade submission <span class="badge demo"><span class="badge-dot"></span>Demo roster</span></h3>
+          <div id="grade-roster"></div>
+          <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:14px;" onclick="submitGrades()">Publish grades</button>
+        </div>
+
+        <div class="card compose-box">
+          <h3>Post announcement</h3>
+          <textarea id="faculty-announce-text" placeholder="Write an announcement for your students…"></textarea>
+          <button class="btn btn-primary" onclick="postFacultyAnnouncement()">Post to course</button>
+          <div id="faculty-announce-list" style="margin-top:14px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:30px"></div>
+  </div>
+</section>
+
+<!-- ============ ADMINISTRATION ============ -->
+<section id="view-admin" class="view">
+  <div class="wrap" style="padding-top:30px;">
+
+    <div class="section-head">
+      <div>
+        <h2>Administration</h2>
+        <div class="desc">Role-based operational dashboard across university functions.</div>
+      </div>
+      <span class="badge demo"><span class="badge-dot"></span>Demo prototype statistics</span>
+    </div>
+
+    <div class="role-tabs">
+      <span class="role-chip active">Super Admin</span>
+      <span class="role-chip">Registrar</span>
+      <span class="role-chip">Finance</span>
+      <span class="role-chip">Admissions</span>
+    </div>
+
+    <div class="module-grid" style="margin-bottom:20px;">
+      <div class="module-card"><div class="n">2,340</div><div class="l">Active students</div></div>
+      <div class="module-card"><div class="n">418</div><div class="l">Applicants (Fall 2026)</div></div>
+      <div class="module-card"><div class="n">6</div><div class="l">Colleges</div></div>
+      <div class="module-card"><div class="n">96</div><div class="l">Faculty on record</div></div>
+      <div class="module-card"><div class="n">312</div><div class="l">Course sections</div></div>
+      <div class="module-card"><div class="n">$482K</div><div class="l">Balances outstanding</div></div>
+      <div class="module-card"><div class="n">57</div><div class="l">Open document requests</div></div>
+      <div class="module-card"><div class="n">142</div><div class="l">Scholarship applications</div></div>
+    </div>
+
+    <div class="portal-grid" style="grid-template-columns: 1fr 1fr;">
+      <div class="card">
+        <h3>Enrollment trend <span class="badge demo"><span class="badge-dot"></span>Demo</span></h3>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="10,110 60,95 110,100 160,70 210,55 260,40 310,25" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+            <g fill="var(--gold)">
+              <circle cx="10" cy="110" r="3"/><circle cx="60" cy="95" r="3"/><circle cx="110" cy="100" r="3"/>
+              <circle cx="160" cy="70" r="3"/><circle cx="210" cy="55" r="3"/><circle cx="260" cy="40" r="3"/><circle cx="310" cy="25" r="3"/>
+            </g>
+            <line x1="10" y1="130" x2="310" y2="130" stroke="var(--line)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="chart-caption">Fall 2020 → Fall 2026, total headcount (illustrative demo data).</div>
+      </div>
+      <div class="card">
+        <h3>GPA distribution <span class="badge demo"><span class="badge-dot"></span>Demo</span></h3>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg">
+            <g fill="var(--ink)">
+              <rect x="10" y="90" width="34" height="40"/>
+              <rect x="54" y="60" width="34" height="70"/>
+              <rect x="98" y="30" width="34" height="100"/>
+              <rect x="142" y="10" width="34" height="120"/>
+              <rect x="186" y="45" width="34" height="85"/>
+              <rect x="230" y="80" width="34" height="50"/>
+              <rect x="274" y="105" width="34" height="25"/>
+            </g>
+            <line x1="10" y1="130" x2="310" y2="130" stroke="var(--line)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="chart-caption">Below 2.0 → 4.00, share of enrolled students (illustrative demo data).</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Import existing students <span class="badge demo"><span class="badge-dot"></span>For students already enrolled</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Bulk-upload a CSV for students who already have a WVSTU ID and completed coursework (columns: student_id, name, college, major, completed_credits, cumulative_gpa, year_of_entry). Each import creates a roster record — full per-student portals are wired up once this connects to Supabase.</div>
+      <div class="file-drop" onclick="document.getElementById('student-csv-input').click();">
+        📄 Click to upload existing students (.csv)
+        <input type="file" id="student-csv-input" accept=".csv" style="display:none;" onchange="handleStudentCsv(event)">
+      </div>
+      <div class="table-scroll">
+      <table class="admin-course-tbl" id="admin-student-roster"></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Student accounts <span class="badge verified"><span class="badge-dot"></span>Real Supabase Auth — passwords never touch this app</span></h3>
+      <div class="desc">Student login now runs on Supabase Auth directly, so passwords are hashed and stored by Supabase — not by this app, and not visible to anyone here, admin included. A student can change their own password from Profile → Change password. Resetting a forgotten password for someone else requires Supabase's admin API with a service-role key, which only belongs on a secure server — never in this browser page.</div>
+    </div>
+
+    <div class="card">
+      <h3>Ecobank payments awaiting approval <span class="badge demo"><span class="badge-dot"></span>Live — from Finance</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Verify each reference against the Ecobank statement before approving — approval updates the student's balance and clearance percentage immediately.</div>
+      <div id="admin-payments-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Manage scholarships <span class="badge demo"><span class="badge-dot"></span>Live — updates Finance</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Award a scholarship to update the student's profile and financial ledger directly.</div>
+      <div id="admin-scholarship-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Admission document reviews <span class="badge demo"><span class="badge-dot"></span>Pending applicant-upload wiring</span></h3>
+      <div class="desc" style="margin-bottom:14px;">The PDF-only Storage bucket and approval policies are already live in Supabase — this list will populate once applicant sign-up and upload are wired to it.</div>
+      <div id="admin-doc-review-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Manage courses <span class="badge demo"><span class="badge-dot"></span>Live — same catalog Registration uses</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Add a course below, or bulk-upload a CSV (columns: code, title, dept, credits, lecturer, time, college). Changes appear immediately in the Curriculum and Registration tabs.</div>
+
+      <div class="file-drop" onclick="document.getElementById('course-csv-input').click();">
+        📄 Click to upload a course list (.csv)
+        <input type="file" id="course-csv-input" accept=".csv" style="display:none;" onchange="handleCourseCsv(event)">
+      </div>
+
+      <div class="form-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="field"><label for="ac-code">Course code</label><input id="ac-code" type="text" placeholder="CSC 450" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+        <div class="field"><label for="ac-title">Title</label><input id="ac-title" type="text" placeholder="Machine Learning" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+        <div class="field"><label for="ac-dept">Department</label><input id="ac-dept" type="text" placeholder="CSC" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+        <div class="field"><label for="ac-college">College</label>
+          <select id="ac-college" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+            <option>Agriculture &amp; Food Science</option>
+            <option>Arts &amp; Sciences</option>
+            <option>Business &amp; Administration</option>
+            <option>Education</option>
+            <option selected>Engineering &amp; Technology</option>
+            <option>Health Sciences</option>
+          </select>
+        </div>
+        <div class="field"><label for="ac-credits">Credits</label><input id="ac-credits" type="number" value="3" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+        <div class="field"><label for="ac-lecturer">Lecturer</label><input id="ac-lecturer" type="text" placeholder="Dr. K. Toe" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+        <div class="field"><label for="ac-time">Schedule</label><input id="ac-time" type="text" placeholder="Mon/Wed 10:00–11:15 AM" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;"></div>
+      </div>
+      <button class="btn btn-primary" onclick="addCourseFromForm()">Add course</button>
+
+      <div style="height:16px"></div>
+
+      <div class="table-scroll">
+      <table class="admin-course-tbl" id="admin-course-table"></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>University announcements feed <span class="badge demo"><span class="badge-dot"></span>Live — same feed students &amp; faculty see</span></h3>
+      <div id="admin-announce-list"></div>
+    </div>
+
+    <div style="height:30px"></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+const SUPABASE_URL = 'https://nvglypbkvxdpizxtdlnu.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Z2x5cGJrdnhkcGl6eHRkbG51Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4NTY0MzMsImV4cCI6MjEwNTQzMjQzM30.ZMHy_ClCcAmsYY6jd_kRJfNsM23nmQLq8q3ny0GDuUs';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+var VIEWS = ['home', 'portal', 'admissions', 'curriculum', 'registration', 'finance', 'faculty', 'admin'];
+var STUDENT_VIEWS = ['portal', 'admissions', 'curriculum', 'registration', 'finance'];
+var currentRole = null;      // 'student' | 'faculty' | 'admin'
+var currentUser = null;      // supabase auth user object
+var CURRENT_TERM = null;     // { id, academic_year, semester_number }
+var cart = {};               // client-side staging of section ids before "Confirm registration"
+var CATALOG = [];            // populated live from course_sections
+var openTerm = null;
+
+function showView(v) {
+  if (v === 'faculty' && currentRole !== 'faculty') {
+    alert('This area is restricted to Faculty accounts. Please log out and sign in with a faculty account.');
+    return;
+  }
+  if (v === 'admin' && currentRole !== 'admin') {
+    alert('This area is restricted to Administration accounts. Please log out and sign in with an admin account.');
+    return;
+  }
+  if (STUDENT_VIEWS.indexOf(v) !== -1 && currentRole !== 'student') {
+    alert('This area is restricted to student accounts. Please log out and sign in with a student account.');
+    return;
+  }
+  VIEWS.forEach(function(name){
+    document.getElementById('view-' + name).classList.toggle('active', name === v);
+    document.getElementById('tab-' + name).classList.toggle('active', name === v);
+  });
+  window.scrollTo(0,0);
+}
+
+function routeLoginByPath() {
+  var path = window.location.pathname.replace(/\/+$/, '').toLowerCase();
+  var which = 'student';
+  if (path === '/admin') which = 'admin';
+  else if (path === '/faculty') which = 'faculty';
+
+  ['student','faculty','admin'].forEach(function(role){
+    document.getElementById('login-form-' + role).classList.toggle('active', which === role);
+  });
+  var subtitle = document.getElementById('login-subtitle');
+  var label = which === 'admin' ? 'Administration sign-in' : (which === 'faculty' ? 'Faculty sign-in' : 'Sign in to continue');
+  subtitle.innerHTML = label + ' <span class="badge demo" style="vertical-align:middle;"><span class="badge-dot"></span>Demo login</span>';
+  return which;
+}
+
+function enterApp(landingView) {
+  document.getElementById('login-gate').style.display = 'none';
+  document.getElementById('app-root').classList.remove('app-hidden');
+  showView(landingView);
+}
+
+async function fetchProfile(userId) {
+  var res = await sb.from('profiles').select('*').eq('id', userId).single();
+  return res.error ? null : res.data;
+}
+
+async function attemptStudentLogin() {
+  var u = document.getElementById('li-username').value.trim().toLowerCase();
+  var p = document.getElementById('li-password').value;
+  var err = document.getElementById('student-login-error');
+  var email = u.indexOf('@') === -1 ? u + '@wvstu.edu.lr' : u;
+  var res = await sb.auth.signInWithPassword({ email: email, password: p });
+  if (res.error) { err.textContent = res.error.message; err.classList.add('show'); return; }
+  var profile = await fetchProfile(res.data.user.id);
+  if (!profile || profile.role !== 'student') {
+    err.textContent = 'This account is not a student account.'; err.classList.add('show');
+    await sb.auth.signOut(); return;
+  }
+  currentUser = res.data.user; currentRole = 'student';
+  err.classList.remove('show');
+  await loadCurrentTerm();
+  enterApp('portal');
+  await refreshStudentPortal();
+}
+
+async function attemptFacultyLogin() {
+  var email = document.getElementById('li-faculty-username').value.trim().toLowerCase();
+  var p = document.getElementById('li-faculty-password').value;
+  var err = document.getElementById('faculty-login-error');
+  var res = await sb.auth.signInWithPassword({ email: email, password: p });
+  if (res.error) { err.textContent = res.error.message; err.classList.add('show'); return; }
+  var profile = await fetchProfile(res.data.user.id);
+  if (!profile || profile.role !== 'faculty') {
+    err.textContent = 'This account is not a faculty account.'; err.classList.add('show');
+    await sb.auth.signOut(); return;
+  }
+  currentUser = res.data.user; currentRole = 'faculty';
+  err.classList.remove('show');
+  document.getElementById('faculty-name-heading').textContent = 'Welcome, ' + profile.first_name + ' ' + profile.last_name;
+  await loadCurrentTerm();
+  enterApp('faculty');
+  await refreshFacultyPortal();
+}
+
+async function attemptAdminLogin() {
+  var email = document.getElementById('li-admin-username').value.trim().toLowerCase();
+  var p = document.getElementById('li-admin-password').value;
+  var err = document.getElementById('admin-login-error');
+  var res = await sb.auth.signInWithPassword({ email: email, password: p });
+  if (res.error) { err.textContent = res.error.message; err.classList.add('show'); return; }
+  var profile = await fetchProfile(res.data.user.id);
+  if (!profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
+    err.textContent = 'This account is not an administration account.'; err.classList.add('show');
+    await sb.auth.signOut(); return;
+  }
+  currentUser = res.data.user; currentRole = 'admin';
+  err.classList.remove('show');
+  await loadCurrentTerm();
+  enterApp('admin');
+  await refreshAdminPortal();
+}
+
+async function logOut() {
+  await sb.auth.signOut();
+  currentRole = null; currentUser = null; cart = {};
+  document.getElementById('app-root').classList.add('app-hidden');
+  document.getElementById('login-gate').style.display = 'flex';
+  ['li-username','li-password','li-faculty-username','li-faculty-password','li-admin-username','li-admin-password'].forEach(function(id){
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+}
+
+async function loadCurrentTerm() {
+  var res = await sb.from('terms').select('id, academic_year, semester_number').eq('is_current', true).limit(1).single();
+  if (!res.error) CURRENT_TERM = res.data;
+}
+
+function fmtMoney(n) { return '$' + Number(n || 0).toFixed(2); }
+
+// =========================================================
+// STUDENT PORTAL
+// =========================================================
+async function refreshStudentPortal() {
+  await Promise.all([
+    renderOverviewStats(),
+    renderCatalog(),
+    renderCart(),
+    renderTerms(),
+    renderFinanceLedger(),
+    renderPendingPayments(),
+    renderScholarships(),
+    renderDocRequests(),
+    renderNotifications(),
+    renderProfile()
+  ]);
+}
+
+function creditCapForGpa(gpa) {
+  if (gpa < 2.5) return 15;
+  if (gpa < 3.0) return 17;
+  return 20;
+}
+function honorsInfo(gpa) {
+  if (gpa >= 4.00) return { label: "President's List range", next: "You're at the maximum published range — 4.00 President's List." };
+  if (gpa >= 3.50) return { label: "Dean's List range", next: "You're " + (4.00 - gpa).toFixed(2) + " points from a perfect 4.00 President's List semester GPA." };
+  if (gpa >= 3.00) return { label: "Honor Roll range", next: "You're " + (3.50 - gpa).toFixed(2) + " points from the 3.50 Dean's List threshold." };
+  return { label: "Below published Honor Roll range", next: "You're " + (3.00 - gpa).toFixed(2) + " points from the 3.00 Honor Roll threshold." };
+}
+
+async function renderOverviewStats() {
+  var sumRes = await sb.from('student_academic_summary').select('*').eq('student_id', currentUser.id).single();
+  var fin = await sb.from('student_financial_summary').select('*').eq('student_id', currentUser.id).limit(1);
+  var studentRes = await sb.from('students').select('*, programs(name, total_credits_required)').eq('id', currentUser.id).single();
+
+  var gpa = (!sumRes.error && sumRes.data) ? Number(sumRes.data.cumulative_gpa) : 0;
+  var completed = (!sumRes.error && sumRes.data) ? Number(sumRes.data.credits_completed) : 0;
+  var required = (!studentRes.error && studentRes.data && studentRes.data.programs) ? studentRes.data.programs.total_credits_required : 132;
+  var balance = 0, clearance = 0;
+  if (!fin.error && fin.data && fin.data.length) { balance = Number(fin.data[0].balance); clearance = Number(fin.data[0].clearance_percent); }
+
+  document.getElementById('c-current').value = gpa.toFixed(2);
+  document.getElementById('c-completed').value = completed;
+  document.getElementById('c-remaining').value = Math.max(required - completed, 1);
+  document.getElementById('stat-credits').textContent = completed;
+  var profileCredits = document.getElementById('profile-credits-completed'); if (profileCredits) profileCredits.textContent = completed;
+  var pct = Math.min(Math.round((completed / required) * 100), 100);
+  document.getElementById('overall-degree-pct').textContent = pct + '%';
+  document.getElementById('overall-degree-fill').style.width = pct + '%';
+  document.getElementById('stat-finance-balance').textContent = fmtMoney(balance);
+  document.getElementById('finance-balance-amt').textContent = fmtMoney(balance);
+  document.getElementById('clearance-pct').textContent = clearance + '%';
+  document.getElementById('clearance-fill').style.width = Math.min(clearance, 100) + '%';
+  var note = document.getElementById('clearance-note');
+  note.innerHTML = clearance >= 75
+    ? 'You have <strong>' + clearance + '%</strong> of tuition cleared — you meet the 75% threshold and can complete registration.'
+    : 'You have <strong>' + clearance + '%</strong> of tuition cleared. You need at least <strong>75%</strong> to complete registration.';
+
+  updateHonors();
+}
+
+function updateHonors() {
+  var gpa = parseFloat(document.getElementById('c-current').value) || 0;
+  document.getElementById('honors-gpa').textContent = gpa.toFixed(2);
+  document.getElementById('stat-gpa').textContent = gpa.toFixed(2);
+  var info = honorsInfo(gpa);
+  document.getElementById('honors-range').innerHTML = '<span class="dot"></span> ' + info.label;
+  document.getElementById('honors-next').textContent = info.next;
+  document.getElementById('stat-gpa-sub').textContent = info.label;
+  updateCalc();
+}
+
+function updateCalc() {
+  var current = parseFloat(document.getElementById('c-current').value);
+  var target = parseFloat(document.getElementById('c-target').value);
+  var completed = parseFloat(document.getElementById('c-completed').value);
+  var remaining = parseFloat(document.getElementById('c-remaining').value);
+  var out = document.getElementById('calc-result');
+  if ([current, target, completed, remaining].some(function(n){ return isNaN(n); }) || remaining <= 0) {
+    out.innerHTML = 'Enter your current GPA, target GPA, completed credits, and remaining credits to see an estimate.';
+    out.classList.remove('impossible'); return;
+  }
+  var totalCredits = completed + remaining;
+  var requiredAvg = (target * totalCredits - current * completed) / remaining;
+  if (requiredAvg > 4.0) {
+    out.innerHTML = 'Reaching a ' + target.toFixed(2) + ' cumulative GPA in ' + remaining + ' remaining credits isn\'t mathematically possible from a ' + current.toFixed(2) + ' current GPA. <b>This is an estimate</b>.';
+    out.classList.add('impossible');
+  } else if (requiredAvg < 0) {
+    out.innerHTML = 'You have already exceeded a ' + target.toFixed(2) + ' cumulative GPA based on the figures entered.';
+    out.classList.remove('impossible');
+  } else {
+    out.innerHTML = 'To reach a cumulative <b>' + target.toFixed(2) + '</b> GPA over your remaining <b>' + remaining + '</b> credits, you would need to average approximately <b>' + requiredAvg.toFixed(2) + '</b> across those credits. <b>This is an estimate</b>.';
+    out.classList.remove('impossible');
+  }
+}
+
+// =========================================================
+// CURRICULUM (all colleges, current term) + REGISTRATION
+// =========================================================
+async function renderCatalog() {
+  if (CATALOG.length > 0) { drawCatalogList(); return; } // cheap path for search/filter keystrokes
+  var listEl = document.getElementById('catalog-list');
+  if (!CURRENT_TERM) { listEl.innerHTML = '<div class="empty-note">No current term is configured.</div>'; return; }
+  listEl.innerHTML = '<div class="empty-note">Loading…</div>';
+
+  var res = await sb.from('course_sections')
+    .select('id, schedule_text, courses(code, title, credits, departments(name, colleges(name)))')
+    .eq('term_id', CURRENT_TERM.id);
+
+  if (res.error) { listEl.innerHTML = '<div class="empty-note">Could not load the catalog: ' + res.error.message + '</div>'; return; }
+
+  CATALOG = res.data.map(function(row){
+    var course = row.courses || {};
+    var dept = course.departments || {};
+    var college = dept.colleges || {};
+    return {
+      id: row.id, code: course.code, title: course.title, credits: course.credits,
+      college: college.name || 'Unknown', schedule: row.schedule_text || 'TBD'
+    };
+  });
+
+  drawCatalogList();
+}
+
+function drawCatalogList() {
+  var q = (document.getElementById('course-search').value || '').trim().toLowerCase();
+  var college = document.getElementById('college-filter').value;
+  var listEl = document.getElementById('catalog-list');
+  var rows = CATALOG.filter(function(c){
+    var matchesQ = !q || (c.code + ' ' + c.title).toLowerCase().indexOf(q) !== -1;
+    var matchesCollege = !college || c.college === college;
+    return matchesQ && matchesCollege;
+  });
+  if (rows.length === 0) { listEl.innerHTML = '<div class="empty-note">No courses match your search. Try a different code or college.</div>'; return; }
+  listEl.innerHTML = rows.map(function(c){
+    var added = !!cart[c.id];
+    return '<div class="course-row"><div class="info"><b>' + c.code + ' — ' + c.title + '</b>' +
+      '<span>' + c.college + ' · ' + c.credits + ' credits · ' + c.schedule + '</span></div>' +
+      '<button class="btn-sm ' + (added ? 'btn-remove' : 'btn-add') + '" onclick="toggleCourse(\'' + c.id + '\')">' +
+      (added ? 'Remove' : 'Add') + '</button></div>';
+  }).join('');
+}
+
+function toggleCourse(id) {
+  if (cart[id]) delete cart[id]; else cart[id] = true;
+  drawCatalogList();
+  renderCart();
+}
+
+function timesOverlap(a, b) {
+  var dayA = a.split(' ')[0], dayB = b.split(' ')[0];
+  if (dayA !== dayB) return false;
+  var mA = a.match(/(\d+):/), mB = b.match(/(\d+):/);
+  if (!mA || !mB) return false;
+  return Math.abs(parseInt(mA[1], 10) - parseInt(mB[1], 10)) < 2;
+}
+
+function renderCart() {
+  var ids = Object.keys(cart);
+  var listEl = document.getElementById('cart-list');
+  var totalEl = document.getElementById('cart-total');
+  var creditsEl = document.getElementById('cart-credits');
+  var warnEl = document.getElementById('conflict-warn');
+  var creditWarnEl = document.getElementById('credit-warn');
+
+  if (ids.length === 0) {
+    listEl.innerHTML = '<div class="empty-note">No courses added yet. Browse the curriculum and add a section.</div>';
+    totalEl.style.display = 'none'; warnEl.classList.remove('show'); creditWarnEl.classList.remove('show');
+    return;
+  }
+  var courses = ids.map(function(id){ return CATALOG.find(function(c){ return c.id === id; }); }).filter(Boolean);
+  var totalCredits = courses.reduce(function(sum, c){ return sum + c.credits; }, 0);
+  listEl.innerHTML = courses.map(function(c){ return '<div class="cart-row"><span>' + c.code + '</span><span>' + c.credits + ' cr</span></div>'; }).join('');
+  totalEl.style.display = 'flex'; creditsEl.textContent = totalCredits;
+
+  var conflicts = [];
+  for (var i = 0; i < courses.length; i++)
+    for (var j = i + 1; j < courses.length; j++)
+      if (timesOverlap(courses[i].schedule, courses[j].schedule)) conflicts.push(courses[i].code + ' and ' + courses[j].code);
+  if (conflicts.length) { warnEl.textContent = 'Schedule conflict: ' + conflicts.join('; ') + '. Choose a different section before confirming.'; warnEl.classList.add('show'); }
+  else warnEl.classList.remove('show');
+
+  var gpa = parseFloat(document.getElementById('c-current').value) || 0;
+  var cap = creditCapForGpa(gpa);
+  if (totalCredits > cap) {
+    creditWarnEl.textContent = 'Credit limit exceeded: your cumulative GPA of ' + gpa.toFixed(2) + ' permits up to ' + cap + ' credits this semester. Remove a course, or contact your advisor for an overload.';
+    creditWarnEl.classList.add('show');
+  } else creditWarnEl.classList.remove('show');
+}
+
+async function confirmRegistration() {
+  var ids = Object.keys(cart);
+  if (ids.length === 0) { alert('Add at least one course before confirming.'); return; }
+  if (document.getElementById('conflict-warn').classList.contains('show')) { alert('Resolve the schedule conflict before confirming registration.'); return; }
+  if (document.getElementById('credit-warn').classList.contains('show')) { alert('Resolve the credit-load limit before confirming registration.'); return; }
+
+  var rows = ids.map(function(sectionId){ return { student_id: currentUser.id, section_id: sectionId, term_id: CURRENT_TERM.id, status: 'registered' }; });
+  var res = await sb.from('enrollments').insert(rows);
+  if (res.error) {
+    alert('Registration could not be completed: ' + res.error.message);
+    return;
+  }
+  alert('Registration confirmed — ' + ids.length + ' course(s) written to your enrollment record.');
+  cart = {};
+  drawCatalogList();
+  renderCart();
+}
+
+// =========================================================
+// GRADE SHEETS (real published grades, grouped by term)
+// =========================================================
+async function renderTerms() {
+  var el = document.getElementById('term-list');
+  var res = await sb.from('grades')
+    .select('grade_letter, credit_hours, quality_points, courses(code, title), terms(academic_year, semester_number)')
+    .eq('student_id', currentUser.id).eq('published', true);
+  if (res.error) { el.innerHTML = '<div class="empty-note">Could not load grade sheets: ' + res.error.message + '</div>'; return; }
+
+  var byTerm = {};
+  res.data.forEach(function(g){
+    var t = g.terms; if (!t) return;
+    var key = t.academic_year + '|' + t.semester_number;
+    byTerm[key] = byTerm[key] || { year: t.academic_year, sem: t.semester_number, courses: [] };
+    byTerm[key].courses.push({ code: g.courses.code, title: g.courses.title, grade: g.grade_letter, cr: g.credit_hours, pts: Number(g.quality_points) });
+  });
+  var terms = Object.keys(byTerm).map(function(k){ return byTerm[k]; })
+    .sort(function(a,b){ return (a.year + a.sem).localeCompare(b.year + b.sem); });
+
+  if (terms.length === 0) { el.innerHTML = '<div class="empty-note">No published grades yet.</div>'; return; }
+
+  el.innerHTML = terms.map(function(term, i){
+    var totalPts = term.courses.reduce(function(s,c){ return s + c.pts; }, 0);
+    var totalCr = term.courses.reduce(function(s,c){ return s + c.cr; }, 0);
+    var gpa = totalCr ? totalPts / totalCr : 0;
+    var honor = gpa >= 3.5 ? { text: "Dean's List range", cls: 'verified' } : (gpa >= 3.0 ? { text: 'Honor Roll range', cls: 'verified' } : null);
+    var detailRows = term.courses.map(function(c){ return '<tr><td>' + c.code + '</td><td>' + c.title + '</td><td>' + c.grade + '</td><td>' + c.cr + '</td><td>' + c.pts.toFixed(1) + '</td></tr>'; }).join('');
+    return '<div class="term-row" onclick="toggleTerm(' + i + ')">' +
+      '<div class="t-main"><b>' + term.year + ' — Semester ' + term.sem + '</b><span>' + term.courses.length + ' courses · ' + totalCr + ' credit hours</span></div>' +
+      '<div class="t-right">' + (honor ? '<span class="badge ' + honor.cls + '"><span class="badge-dot"></span>' + honor.text + '</span>' : '') +
+      '<div class="term-gpa">' + gpa.toFixed(2) + '</div></div></div>' +
+      '<div class="term-detail' + (openTerm === i ? ' open' : '') + '" id="term-detail-' + i + '"><div class="table-scroll">' +
+      '<table class="grades-tbl"><tr><th>Code</th><th>Course</th><th>Grade</th><th>Cr.</th><th>Pts.</th></tr>' + detailRows + '</table></div></div>';
+  }).join('');
+}
+function toggleTerm(i) { openTerm = (openTerm === i) ? null : i; renderTerms(); }
+
+// =========================================================
+// FINANCE
+// =========================================================
+async function renderFinanceLedger() {
+  var el = document.getElementById('ledger-dynamic-rows');
+  var res = await sb.from('transactions').select('*').eq('student_id', currentUser.id).order('created_at');
+  if (res.error) { el.innerHTML = ''; return; }
+  var rows = '';
+  var balance = 0;
+  res.data.forEach(function(t){
+    var amt = Number(t.amount);
+    if (t.trans_type === 'charge') { balance += amt; rows += '<tr><td>' + t.item + '</td><td class="num">' + fmtMoney(amt) + '</td><td class="num"></td><td class="num"></td></tr>'; }
+    else { balance -= amt; rows += '<tr><td>' + t.item + '</td><td class="num"></td><td class="num">' + fmtMoney(amt) + '</td><td class="num"></td></tr>'; }
+  });
+  rows += '<tr class="total-row"><td>Current balance</td><td class="num"></td><td class="num"></td><td class="num">' + fmtMoney(balance) + '</td></tr>';
+  el.innerHTML = rows;
+}
+
+async function renderPendingPayments() {
+  var el = document.getElementById('pending-payments-list');
+  var res = await sb.from('ecobank_payments').select('*').eq('student_id', currentUser.id).eq('status', 'pending').order('submitted_at', { ascending: false });
+  if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No payments awaiting verification.</div>'; return; }
+  el.innerHTML = res.data.map(function(p){
+    return '<div class="doc-req-row"><div class="info"><b>' + fmtMoney(p.amount) + '</b><small>Ref ' + p.reference_number + '</small></div><span class="doc-status submitted">Pending admin approval</span></div>';
+  }).join('');
+}
+
+async function submitEcobankPayment() {
+  var amount = parseFloat(document.getElementById('pay-amount').value);
+  var ref = document.getElementById('pay-ref').value.trim();
+  if (!amount || amount <= 0 || !ref) { alert('Enter both the amount paid and your Ecobank reference number.'); return; }
+  var res = await sb.from('ecobank_payments').insert({ student_id: currentUser.id, amount: amount, reference_number: ref, status: 'pending' });
+  if (res.error) { alert('Could not submit payment: ' + res.error.message); return; }
+  document.getElementById('pay-amount').value = ''; document.getElementById('pay-ref').value = '';
+  await renderPendingPayments();
+  alert('Submitted — an administrator will verify this against the Ecobank statement before it is applied to your balance.');
+}
+
+function downloadReceipt() {
+  alert('Receipt download (demo) — in a full build this would generate a PDF receipt the student can save to their phone or computer.');
+}
+
+async function renderScholarships() {
+  var el = document.getElementById('scholarship-list');
+  var res = await sb.from('scholarship_awards').select('status, scholarships(name, requirement_text)').eq('student_id', currentUser.id);
+  if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No scholarships on file yet.</div>'; return; }
+  var labels = { eligible: 'Eligible', applied: 'Applied', awarded: 'Awarded', closed: 'Closed' };
+  var cls = { eligible: 'eligible', applied: 'applied', awarded: 'eligible', closed: 'closed' };
+  el.innerHTML = res.data.map(function(a){
+    var s = a.scholarships || {};
+    return '<div class="scholar-card"><div class="top"><span class="name">' + s.name + '</span><span class="status-tag ' + cls[a.status] + '">' + labels[a.status] + '</span></div><div class="meta">' + (s.requirement_text || '') + '</div></div>';
+  }).join('');
+}
+
+// =========================================================
+// DOCUMENTS
+// =========================================================
+var RESTRICTED_DOC_TYPES = { 'Official Transcript': 'official_transcript', 'Degree Verification': 'degree_verification' };
+var DOC_TYPE_LABELS = { official_transcript: 'Official Transcript', degree_verification: 'Degree Verification', enrollment_verification: 'Enrollment Verification', other: 'Other Authorized Document' };
+
+async function onDocTypeChange() {
+  var type = document.getElementById('doc-type').value;
+  var note = document.getElementById('doc-eligibility-note');
+  var block = document.getElementById('doc-special-block');
+  if (!RESTRICTED_DOC_TYPES[type]) { note.style.display = 'none'; block.style.display = 'none'; return; }
+  var sumRes = await sb.from('student_academic_summary').select('credits_completed').eq('student_id', currentUser.id).single();
+  var completed = (!sumRes.error && sumRes.data) ? sumRes.data.credits_completed : 0;
+  note.style.display = 'block';
+  if (completed >= 132) { note.textContent = 'All required courses are complete — you are eligible to request this document.'; block.style.display = 'none'; }
+  else {
+    note.textContent = 'This document is normally only available once all required courses are complete (' + completed + ' of 132 credits so far). If this is for a Transfer or Scholarship/Travel opportunity, submit a special request below.';
+    block.style.display = 'block';
+  }
+}
+function toggleSpecialReason() {
+  document.getElementById('doc-special-reason').style.display = document.getElementById('doc-special-check').checked ? 'block' : 'none';
+}
+
+async function requestDocument() {
+  var typeLabel = document.getElementById('doc-type').value;
+  var docType = RESTRICTED_DOC_TYPES[typeLabel] || typeLabel.toLowerCase().replace(/ /g, '_').replace('authorized_document','').trim() || 'other';
+  var isRestricted = !!RESTRICTED_DOC_TYPES[typeLabel];
+  var isSpecial = false, reason = null;
+  if (isRestricted) {
+    isSpecial = document.getElementById('doc-special-check').checked;
+    reason = document.getElementById('doc-special-text').value.trim();
+  }
+  var row = { student_id: currentUser.id, doc_type: docType, is_special_request: isSpecial, special_reason: reason || null };
+  var res = await sb.from('document_requests').insert(row);
+  if (res.error) { alert(res.error.message); return; }
+  document.getElementById('doc-special-check').checked = false;
+  document.getElementById('doc-special-text').value = '';
+  toggleSpecialReason();
+  await renderDocRequests();
+  alert('Request submitted — track its status under My requests.');
+}
+
+async function renderDocRequests() {
+  var el = document.getElementById('doc-request-list');
+  var res = await sb.from('document_requests').select('*').eq('student_id', currentUser.id).order('requested_at', { ascending: false });
+  if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No document requests yet.</div>'; return; }
+  el.innerHTML = res.data.map(function(d){
+    var label = DOC_TYPE_LABELS[d.doc_type] || d.doc_type;
+    if (d.is_special_request) label += ' (Transfer/Scholarship request)';
+    return '<div class="doc-req-row"><div class="info"><b>' + label + '</b><small>Requested ' + new Date(d.requested_at).toLocaleDateString() + '</small></div><span class="doc-status ' + d.status + '">' + d.status.charAt(0).toUpperCase() + d.status.slice(1) + '</span></div>';
+  }).join('');
+}
+
+// =========================================================
+// NOTIFICATIONS
+// =========================================================
+async function renderNotifications() {
+  var el = document.getElementById('notif-list');
+  var badge = document.getElementById('notif-count-badge');
+  var res = await sb.from('notifications').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(30);
+  if (res.error) { el.innerHTML = '<div class="empty-note">Could not load notifications.</div>'; return; }
+  var unread = res.data.filter(function(n){ return !n.is_read; }).length;
+  if (unread > 0) { badge.style.display = 'inline-block'; badge.textContent = unread; } else badge.style.display = 'none';
+  if (!res.data.length) { el.innerHTML = '<div class="empty-note">No notifications right now.</div>'; return; }
+  el.innerHTML = res.data.map(function(n){
+    return '<div class="notif-item" onclick="openNotification(\'' + n.id + '\',\'' + (n.link_view || 'portal') + '\')">' +
+      (n.is_read ? '<div style="width:7px;flex-shrink:0;"></div>' : '<div class="notif-new-dot"></div>') +
+      '<div class="notif-cat">' + n.category + '</div><div class="notif-txt"><b>' + n.title + '</b><span>' + (n.body || '') + '</span></div></div>';
+  }).join('');
+}
+async function openNotification(id, view) {
+  await sb.from('notifications').update({ is_read: true }).eq('id', id);
+  renderNotifications();
+  showView(view);
+}
+
+// =========================================================
+// PROFILE
+// =========================================================
+async function renderProfile() {
+  var res = await sb.from('students').select('*, profiles(first_name, last_name, email, phone), programs(name)').eq('id', currentUser.id).single();
+  if (res.error) return;
+  var s = res.data, p = s.profiles || {}, prog = s.programs || {};
+  var setField = function(sel, val){ var el = document.querySelector(sel); if (el) el.textContent = val || '—'; };
+  document.getElementById('profile-credits-completed'); // already handled in overview stats
+}
+
+function changeStudentPassword() {
+  var next = prompt('Enter your new password:');
+  if (!next) return;
+  sb.auth.updateUser({ password: next }).then(function(res){
+    if (res.error) { alert('Could not update password: ' + res.error.message); return; }
+    alert('Password updated.');
+  });
+}
+
+// =========================================================
+// PORTAL SUBNAV
+// =========================================================
+var PORTAL_SUBS = ['overview', 'profile', 'grades', 'documents', 'notifications', 'assistant'];
+function showPortalSub(name) {
+  PORTAL_SUBS.forEach(function(s){
+    document.getElementById('portal-sub-' + s).classList.toggle('active', s === name);
+    document.getElementById('psub-' + s).classList.toggle('active', s === name);
+  });
+  if (name === 'notifications') {
+    setTimeout(async function(){
+      await sb.from('notifications').update({ is_read: true }).eq('user_id', currentUser.id).eq('is_read', false);
+      renderNotifications();
+    }, 1200);
+  }
+}
+
+// =========================================================
+// WVSTU DIGITAL ASSISTANT (real knowledge_base table)
+// =========================================================
+var KB_CACHE = null;
+async function askAssistant(question) {
+  question = (question || '').trim();
+  if (!question) return;
+  var thread = document.getElementById('assistant-thread');
+  thread.innerHTML += '<div class="chat-msg user"><div class="bubble">' + question.replace(/</g,'&lt;') + '</div></div>';
+
+  if (!KB_CACHE) {
+    var res = await sb.from('knowledge_base').select('*');
+    KB_CACHE = res.error ? [] : res.data;
+  }
+  var lower = question.toLowerCase();
+  var hit = KB_CACHE.find(function(entry){ return entry.question_keywords.some(function(kw){ return lower.indexOf(kw) !== -1; }); });
+
+  var answerHtml;
+  if (hit) {
+    var badge = hit.is_verified ? '<span class="badge verified" style="margin-top:6px;display:inline-flex;"><span class="badge-dot"></span>Verified</span>' : '<span class="badge demo" style="margin-top:6px;display:inline-flex;"><span class="badge-dot"></span>Unverified source</span>';
+    answerHtml = '<div class="bubble">' + hit.answer + '<div class="src">' + badge + '</div></div>';
+  } else {
+    answerHtml = '<div class="bubble">I couldn\'t verify that information from the university\'s approved information sources. Please contact the appropriate WVSTU office.</div>';
+  }
+  thread.innerHTML += '<div class="chat-msg bot">' + answerHtml + '</div>';
+  thread.scrollTop = thread.scrollHeight;
+}
+
+// =========================================================
+// FACULTY PORTAL
+// =========================================================
+var facultySections = [];
+var currentFacultySection = null;
+
+async function refreshFacultyPortal() {
+  var res = await sb.from('course_sections').select('id, course_id, schedule_text, courses(code, title, credits)').eq('lecturer_id', currentUser.id);
+  facultySections = res.error ? [] : res.data;
+  var listEl = document.getElementById('faculty-course-list');
+  if (!listEl) return;
+  if (!facultySections.length) {
+    listEl.innerHTML = '<div class="empty-note">No sections assigned yet.</div>';
+    document.getElementById('faculty-course-title').textContent = 'No section selected';
+    return;
+  }
+  listEl.innerHTML = facultySections.map(function(s, i){
+    var c = s.courses || {};
+    return '<div class="course-tile' + (i === 0 ? ' active' : '') + '" data-section="' + s.id + '" onclick="selectFacultyCourse(\'' + s.id + '\')">' +
+      '<div class="top"><span class="code">' + c.code + '</span></div><div class="meta">' + c.title + ' · ' + (s.schedule_text || 'TBD') + '</div></div>';
+  }).join('');
+  await selectFacultyCourse(facultySections[0].id);
+  await renderFacultyAnnouncementFeed();
+}
+
+async function selectFacultyCourse(sectionId) {
+  currentFacultySection = sectionId;
+  document.querySelectorAll('.course-tile').forEach(function(t){ t.classList.toggle('active', t.dataset.section === sectionId); });
+  var section = facultySections.find(function(s){ return s.id === sectionId; });
+  var c = (section && section.courses) || {};
+  document.getElementById('faculty-course-title').innerHTML = (c.code || '') + ' — Attendance <span class="badge demo"><span class="badge-dot"></span>Today\'s session</span>';
+  await renderRoster();
+}
+
+async function fetchRoster(sectionId) {
+  var res = await sb.from('enrollments').select('student_id, students(profiles(first_name, last_name))').eq('section_id', sectionId).eq('status', 'registered');
+  if (res.error) return [];
+  return res.data.map(function(e){
+    var p = (e.students && e.students.profiles) || {};
+    return { id: e.student_id, name: (p.first_name || '') + ' ' + (p.last_name || '') };
+  });
+}
+
+async function renderRoster() {
+  var roster = await fetchRoster(currentFacultySection);
+  var today = new Date().toISOString().slice(0,10);
+  var attRes = await sb.from('attendance').select('student_id, status').eq('section_id', currentFacultySection).eq('class_date', today);
+  var attMap = {}; if (!attRes.error) attRes.data.forEach(function(a){ attMap[a.student_id] = a.status; });
+
+  var attEl = document.getElementById('attendance-list');
+  if (!roster.length) { attEl.innerHTML = '<div class="empty-note">No students registered for this section yet.</div>'; }
+  else {
+    attEl.innerHTML = roster.map(function(s){
+      var st = attMap[s.id];
+      return '<div class="roster-row"><span>' + s.name + '</span><div class="att-toggle">' +
+        '<button class="att-btn present ' + (st === 'present' ? 'on' : '') + '" onclick="setAttendance(\'' + s.id + '\',\'present\')">Present</button>' +
+        '<button class="att-btn absent ' + (st === 'absent' ? 'on' : '') + '" onclick="setAttendance(\'' + s.id + '\',\'absent\')">Absent</button></div></div>';
+    }).join('');
+  }
+
+  var gradeEl = document.getElementById('grade-roster');
+  if (!roster.length) { gradeEl.innerHTML = '<div class="empty-note">No students to grade yet.</div>'; }
+  else {
+    var grades = ['A','A-','B+','B','B-','C+','C','D','F'];
+    gradeEl.innerHTML = roster.map(function(s){
+      var opts = grades.map(function(g){ return '<option>' + g + '</option>'; }).join('');
+      return '<div class="roster-row"><span>' + s.name + '</span><select class="grade-select" id="grade-' + s.id + '"><option value="">—</option>' + opts + '</select></div>';
+    }).join('');
+  }
+}
+
+async function setAttendance(studentId, status) {
+  var today = new Date().toISOString().slice(0,10);
+  var res = await sb.from('attendance').upsert({
+    section_id: currentFacultySection, student_id: studentId, class_date: today, status: status, recorded_by: currentUser.id
+  }, { onConflict: 'section_id,student_id,class_date' });
+  if (res.error) { alert('Could not save attendance: ' + res.error.message); return; }
+  await renderRoster(); // saves automatically -- no separate submit step needed
+}
+
+async function submitGrades() {
+  var roster = await fetchRoster(currentFacultySection);
+  var section = facultySections.find(function(s){ return s.id === currentFacultySection; });
+  var course = (section && section.courses) || {};
+  var filled = [];
+  roster.forEach(function(s){
+    var el = document.getElementById('grade-' + s.id);
+    if (el && el.value) filled.push({ student_id: s.id, grade_letter: el.value, name: s.name });
+  });
+  if (!filled.length) { alert('Select at least one grade before publishing.'); return; }
+  if (!confirm('Publish ' + filled.length + ' grade(s) for ' + course.code + '? Students will be notified.')) return;
+
+  for (var i = 0; i < filled.length; i++) {
+    var f = filled[i];
+    var res = await sb.from('grades').upsert({
+      student_id: f.student_id, course_id: section.course_id,
+      section_id: currentFacultySection, term_id: CURRENT_TERM.id,
+      grade_letter: f.grade_letter, credit_hours: course.credits, submitted_by: currentUser.id, published: true
+    }, { onConflict: 'student_id,course_id,term_id' });
+    if (res.error) { alert('Could not publish grade for ' + f.name + ': ' + res.error.message); return; }
+  }
+  alert('Grades published for ' + filled.length + ' of ' + roster.length + ' students.');
+}
+
+async function postFacultyAnnouncement() {
+  var text = document.getElementById('faculty-announce-text').value.trim();
+  if (!text) return;
+  var res = await sb.from('announcements').insert({ author_id: currentUser.id, section_id: currentFacultySection, category: 'Academic', body: text });
+  if (res.error) { alert(res.error.message); return; }
+  document.getElementById('faculty-announce-text').value = '';
+  await renderFacultyAnnouncementFeed();
+}
+async function renderFacultyAnnouncementFeed() {
+  var el = document.getElementById('faculty-announce-list');
+  var res = await sb.from('announcements').select('body, created_at').eq('author_id', currentUser.id).order('created_at', { ascending: false }).limit(10);
+  if (res.error || !res.data.length) { el.innerHTML = ''; return; }
+  el.innerHTML = res.data.map(function(a){ return '<div class="announce"><div class="tag">Posted ' + new Date(a.created_at).toLocaleDateString() + '</div><div class="txt">' + a.body.replace(/</g,'&lt;') + '</div></div>'; }).join('');
+}
+
+// =========================================================
+// ADMINISTRATION PORTAL
+// =========================================================
+var COLLEGE_CACHE = null;
+
+async function refreshAdminPortal() {
+  await Promise.all([
+    renderAdminCourses(),
+    renderAdminPayments(),
+    renderAdminScholarships(),
+    renderStudentRoster(),
+    renderAdminAnnouncementFeed(),
+    renderAdminDocReviews()
+  ]);
+}
+
+function renderAdminDocReviews() {
+  var el = document.getElementById('admin-doc-review-list');
+  if (el) el.innerHTML = '<div class="empty-note">No admission documents awaiting review yet.</div>';
+}
+
+async function getCollegeIdByName(name) {
+  if (!COLLEGE_CACHE) {
+    var res = await sb.from('colleges').select('id, name');
+    COLLEGE_CACHE = res.error ? [] : res.data;
+  }
+  var c = COLLEGE_CACHE.find(function(x){ return x.name.indexOf(name) !== -1 || name.indexOf(x.name) !== -1; });
+  return c ? c.id : null;
+}
+async function getOrCreateDepartment(collegeId, deptCode, deptName) {
+  var existing = await sb.from('departments').select('id').eq('code', deptCode).limit(1);
+  if (!existing.error && existing.data.length) return existing.data[0].id;
+  var created = await sb.from('departments').insert({ college_id: collegeId, name: deptName || deptCode, code: deptCode }).select('id').single();
+  return created.error ? null : created.data.id;
+}
+
+async function renderAdminCourses() {
+  var el = document.getElementById('admin-course-table');
+  if (!el) return;
+  var res = await sb.from('course_sections')
+    .select('id, schedule_text, courses(code, title, credits, departments(name, colleges(name)))')
+    .eq('term_id', CURRENT_TERM.id);
+  if (res.error) { el.innerHTML = '<tr><td>Could not load: ' + res.error.message + '</td></tr>'; return; }
+  var rows = res.data.map(function(s){
+    var c = s.courses || {}; var dept = c.departments || {}; var college = dept.colleges || {};
+    return '<tr><td><b>' + c.code + '</b></td><td>' + c.title + '</td><td>' + (college.name || '') + '</td><td>' + c.credits + '</td><td>' + (s.schedule_text || '') + '</td>' +
+      '<td><button class="icon-btn danger" onclick="deleteCourseSection(\'' + s.id + '\')">Remove</button></td></tr>';
+  }).join('');
+  el.innerHTML = '<tr><th>Code</th><th>Title</th><th>College</th><th>Cr.</th><th>Schedule</th><th></th></tr>' + rows;
+}
+
+async function addCourseFromForm() {
+  var code = document.getElementById('ac-code').value.trim();
+  var title = document.getElementById('ac-title').value.trim();
+  var dept = document.getElementById('ac-dept').value.trim().toUpperCase();
+  var collegeName = document.getElementById('ac-college').value;
+  var credits = parseInt(document.getElementById('ac-credits').value, 10) || 3;
+  var time = document.getElementById('ac-time').value.trim() || 'TBD';
+  if (!code || !title || !dept) { alert('Course code, title, and department are required.'); return; }
+
+  var collegeId = await getCollegeIdByName(collegeName);
+  if (!collegeId) { alert('Could not resolve college "' + collegeName + '".'); return; }
+  var deptId = await getOrCreateDepartment(collegeId, dept, dept);
+
+  var courseRes = await sb.from('courses').insert({ department_id: deptId, code: code, title: title, credits: credits }).select('id').single();
+  if (courseRes.error) { alert('Could not create course: ' + courseRes.error.message); return; }
+
+  var sectionRes = await sb.from('course_sections').insert({ course_id: courseRes.data.id, term_id: CURRENT_TERM.id, section_number: '1', schedule_text: time });
+  if (sectionRes.error) { alert('Could not create section: ' + sectionRes.error.message); return; }
+
+  ['ac-code','ac-title','ac-dept','ac-time'].forEach(function(f){ document.getElementById(f).value = ''; });
+  document.getElementById('ac-credits').value = 3;
+  await renderAdminCourses();
+  alert(code + ' added to the ' + collegeName + ' curriculum — visible in Curriculum and Registration immediately.');
+}
+
+async function deleteCourseSection(sectionId) {
+  if (!confirm('Remove this section from the current term?')) return;
+  var res = await sb.from('course_sections').delete().eq('id', sectionId);
+  if (res.error) { alert(res.error.message); return; }
+  await renderAdminCourses();
+}
+
+async function handleCourseCsv(evt) {
+  var file = evt.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = async function(e) {
+    var lines = e.target.result.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+    var added = 0, skipped = 0;
+    for (var i = 0; i < lines.length; i++) {
+      var parts = lines[i].split(',').map(function(p){ return p.trim(); });
+      if (parts.length < 6 || /^course|code$/i.test(parts[0])) { if (parts.length < 6) skipped++; continue; }
+      var code = parts[0], title = parts[1], deptCode = parts[2].toUpperCase(), credits = parseInt(parts[3],10) || 3, time = parts[5];
+      var collegeName = parts[6] || 'Engineering & Technology';
+      var collegeId = await getCollegeIdByName(collegeName);
+      if (!collegeId) { skipped++; continue; }
+      var deptId = await getOrCreateDepartment(collegeId, deptCode, deptCode);
+      var courseRes = await sb.from('courses').insert({ department_id: deptId, code: code, title: title, credits: credits }).select('id').single();
+      if (courseRes.error) { skipped++; continue; }
+      await sb.from('course_sections').insert({ course_id: courseRes.data.id, term_id: CURRENT_TERM.id, section_number: '1', schedule_text: time });
+      added++;
+    }
+    await renderAdminCourses();
+    alert('Upload processed — ' + added + ' course(s) added' + (skipped ? ', ' + skipped + ' skipped' : '') + '.');
+    evt.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+async function renderAdminPayments() {
+  var el = document.getElementById('admin-payments-list');
+  var res = await sb.from('ecobank_payments').select('id, amount, reference_number, students(profiles(first_name,last_name))').eq('status', 'pending');
+  if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No payments awaiting approval.</div>'; return; }
+  el.innerHTML = res.data.map(function(p){
+    var name = p.students && p.students.profiles ? p.students.profiles.first_name + ' ' + p.students.profiles.last_name : 'Student';
+    return '<div class="doc-req-row"><div class="info"><b>' + fmtMoney(p.amount) + ' — ' + name + '</b><small>Ref ' + p.reference_number + '</small></div><button class="btn-sm" onclick="approvePayment(\'' + p.id + '\')">Approve</button></div>';
+  }).join('');
+}
+async function approvePayment(id) {
+  var res = await sb.from('ecobank_payments').update({ status: 'approved', reviewed_by: currentUser.id }).eq('id', id);
+  if (res.error) { alert('Could not approve: ' + res.error.message); return; }
+  await renderAdminPayments();
+  alert('Payment approved — posted to the student\'s ledger and clearance recalculated automatically.');
+}
+
+async function renderAdminScholarships() {
+  var el = document.getElementById('admin-scholarship-list');
+  var res = await sb.from('scholarship_awards').select('id, status, scholarships(name, requirement_text), students(profiles(first_name,last_name))');
+  if (res.error) { el.innerHTML = ''; return; }
+  if (!res.data.length) {
+    var schRes = await sb.from('scholarships').select('id, name, requirement_text');
+    el.innerHTML = (schRes.data || []).map(function(s){
+      return '<div class="doc-req-row"><div class="info"><b>' + s.name + '</b><small>' + (s.requirement_text||'') + ' — no student on file yet</small></div></div>';
+    }).join('');
+    return;
+  }
+  el.innerHTML = res.data.map(function(a){
+    var s = a.scholarships || {}; var name = a.students && a.students.profiles ? a.students.profiles.first_name + ' ' + a.students.profiles.last_name : 'Student';
+    var actionBtn = a.status === 'awarded' ? '<span class="doc-status ready">Awarded</span>' : '<button class="btn-sm" onclick="awardScholarship(\'' + a.id + '\')">Award to ' + name + '</button>';
+    return '<div class="doc-req-row"><div class="info"><b>' + s.name + '</b><small>' + (s.requirement_text||'') + '</small></div>' + actionBtn + '</div>';
+  }).join('');
+}
+async function awardScholarship(awardId) {
+  if (!confirm('Award this scholarship? This updates the student\'s profile and financial ledger immediately.')) return;
+  var res = await sb.from('scholarship_awards').update({ status: 'awarded', awarded_by: currentUser.id }).eq('id', awardId);
+  if (res.error) { alert(res.error.message); return; }
+  await renderAdminScholarships();
+  alert('Scholarship awarded — reflected on the student\'s Finance page immediately.');
+}
+
+async function renderStudentRoster() {
+  var el = document.getElementById('admin-student-roster');
+  if (!el) return;
+  var res = await sb.from('students').select('student_id_number, academic_status, year_of_entry, profiles(first_name,last_name), programs(name)');
+  if (res.error) { el.innerHTML = '<tr><td>Could not load roster.</td></tr>'; return; }
+  var rows = res.data.map(function(s){
+    var p = s.profiles || {}; var prog = s.programs || {};
+    return '<tr><td><b>' + s.student_id_number + '</b></td><td>' + p.first_name + ' ' + p.last_name + '</td><td>' + prog.name + '</td><td>' + s.academic_status + '</td><td>' + s.year_of_entry + '</td></tr>';
+  }).join('');
+  el.innerHTML = '<tr><th>Student ID</th><th>Name</th><th>Program</th><th>Status</th><th>Entry</th></tr>' + rows;
+}
+
+async function handleStudentCsv(evt) {
+  alert('Bulk student import requires creating real login accounts, which needs a secure server-side admin key rather than code running in this browser page. For now, use each student\'s own Sign Up to create their account, or provision accounts directly in the Supabase dashboard.');
+  evt.target.value = '';
+}
+
+async function renderAdminAnnouncementFeed() {
+  var el = document.getElementById('admin-announce-list');
+  var res = await sb.from('announcements').select('body, category, created_at').order('created_at', { ascending: false }).limit(10);
+  if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No announcements yet.</div>'; return; }
+  el.innerHTML = res.data.map(function(a){ return '<div class="announce"><div class="tag">' + a.category + '</div><div class="txt">' + a.body.replace(/</g,'&lt;') + '</div></div>'; }).join('');
+}
+
+// =========================================================
+// PAGE INIT
+// =========================================================
+['c-current','c-target','c-completed','c-remaining'].forEach(function(id){
+  var el = document.getElementById(id);
+  if (el) el.addEventListener('input', function(){ if (id === 'c-current') { updateHonors(); renderCart(); } else updateCalc(); });
+});
+document.getElementById('course-search').addEventListener('input', drawCatalogList);
+document.getElementById('college-filter').addEventListener('change', drawCatalogList);
+
+
+// =========================================================
+// ADMISSIONS DOCUMENT UPLOAD
+// Scoped as demo for this pass: real applicant-facing document upload needs its
+// own signed-up "applicant" identity plus a Storage upload flow. The bucket,
+// PDF-only MIME restriction, and RLS policies are already live in Supabase
+// (see the 'admission-documents' bucket) -- wiring this button to it is the
+// next piece of work once an applicant auth flow exists.
+// Admissions program-selection lock is demo-only for this pass (see handleAdmissionUpload
+// note above) -- the students.program_locked column and its enforcing trigger are
+// already live in Supabase for once a real applicant flow exists.
+var programLocked = false;
+function saveProgramSelection() {
+  if (programLocked) return;
+  var college = document.getElementById('adm-college').value;
+  var program = document.getElementById('adm-program').value;
+  programLocked = true;
+  document.getElementById('adm-college').disabled = true;
+  document.getElementById('adm-program').disabled = true;
+  alert('Program saved: ' + program + ' (' + college + '). This selection is now locked -- changing it before Sophomore standing requires a request to the Registrar/Admissions Office. (The database-level lock and trigger are live; this demo page is not yet wired to a real application record.)');
+}
+
+function handleAdmissionUpload(evt) {
+  var file = evt.target.files[0];
+  if (!file) return;
+  var isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  if (!isPdf) {
+    alert('"' + file.name + '" was not accepted. Only scanned documents in PDF format can be uploaded.');
+    evt.target.value = '';
+    return;
+  }
+  alert('PDF accepted (demo) -- the Storage bucket and approval workflow are live in Supabase; wiring this specific upload button to it is the next step once an applicant login flow exists.');
+  evt.target.value = '';
+}
+
+// Attendance already auto-saves on every toggle via setAttendance(); this button
+// is the end-of-day confirmation the faculty member expects to click.
+async function submitAttendance() {
+  var roster = await fetchRoster(currentFacultySection);
+  var today = new Date().toISOString().slice(0,10);
+  var res = await sb.from('attendance').select('student_id').eq('section_id', currentFacultySection).eq('class_date', today);
+  var marked = res.error ? 0 : res.data.length;
+  alert('Attendance already saved automatically as you marked it -- ' + marked + ' of ' + roster.length + ' students recorded for today.');
+}
+
+// =========================================================
+// RESTORE EXISTING SESSION ON PAGE LOAD
+// =========================================================
+routeLoginByPath();
+
+(async function checkExistingSession() {
+  var sessionRes = await sb.auth.getSession();
+  var session = sessionRes.data && sessionRes.data.session;
+  if (!session) return;
+  var profile = await fetchProfile(session.user.id);
+  if (!profile) { await sb.auth.signOut(); return; }
+  currentUser = session.user;
+  currentRole = profile.role === 'super_admin' ? 'admin' : profile.role;
+  await loadCurrentTerm();
+  if (currentRole === 'student') { enterApp('portal'); await refreshStudentPortal(); }
+  else if (currentRole === 'faculty') {
+    document.getElementById('faculty-name-heading').textContent = 'Welcome, ' + profile.first_name + ' ' + profile.last_name;
+    enterApp('faculty'); await refreshFacultyPortal();
+  }
+  else if (currentRole === 'admin') { enterApp('admin'); await refreshAdminPortal(); }
+})();
+
+</script>
+
+</body>
+</html>
