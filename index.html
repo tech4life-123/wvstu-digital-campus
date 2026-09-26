@@ -640,6 +640,17 @@
   </div>
 </div>
 
+<div id="verify-gate" style="display:none;">
+  <div class="login-card" style="max-width:480px;">
+    <h2>Verify a document</h2>
+    <div class="sub">Enter the verification code printed on a WVSTU document to confirm it was genuinely issued.</div>
+    <div class="field"><label for="verify-code-input">Verification code</label><input id="verify-code-input" type="text" placeholder="e.g. 8F3A9C1B2D" style="text-transform:uppercase;"></div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="runTranscriptVerification()">Verify</button>
+    <div id="verify-result" style="margin-top:16px;"></div>
+    <div class="login-hint" style="margin-top:14px;">Remember, this is a demonstration prototype — codes shown elsewhere in this app are demo data, not real WVSTU records. <a href="/" style="color:var(--gold);">Return to the public site</a>.</div>
+  </div>
+</div>
+
 <div id="app-root" class="app-hidden">
 <div class="topbar">
   <div class="topbar-inner">
@@ -733,6 +744,7 @@
       <div class="disclaimer">
         <strong>This is a demonstration / prototype concept</strong> built to show how WVSTU's public information and digital services could be unified in one experience. It is <strong>not an official William V. S. Tubman University system</strong> and has no connection to WVSTU's actual databases. Institutional facts above (location, colleges, founding, leadership) are drawn from WVSTU's public materials and Wikipedia; all student, financial, grade, and transcript data elsewhere in this prototype is clearly marked <strong>DEMO DATA</strong> and is entirely fictional.
       </div>
+      <div class="disclaimer" style="margin-top:10px;">Received a document with a verification code? <a href="/verify" style="color:var(--gold); font-weight:600;">Verify it here</a>.</div>
     </div>
   </footer>
 </section>
@@ -765,7 +777,7 @@
       <div class="stat-grid">
         <div class="stat-card"><div class="label">Cumulative GPA</div><div class="value" id="stat-gpa">3.78</div><div class="sub" id="stat-gpa-sub">Summa Cum Laude range</div></div>
         <div class="stat-card"><div class="label">Credits earned</div><div class="value" id="stat-credits">106</div><div class="sub">of 132 required</div></div>
-        <div class="stat-card"><div class="label">Academic standing</div><div class="value" style="font-size:20px;">Good standing</div><div class="sub">No holds on file</div></div>
+        <div class="stat-card"><div class="label">Academic standing</div><div class="value" id="stat-standing" style="font-size:20px;">Good standing</div><div class="sub" id="stat-standing-sub">No holds on file</div></div>
         <div class="stat-card"><div class="label">Financial balance</div><div class="value" id="stat-finance-balance">$465</div><div class="sub">Due before finals</div></div>
       </div>
 
@@ -774,6 +786,7 @@
 
           <div class="card">
             <h3>Action required</h3>
+            <div id="standing-alert" style="display:none;"></div>
             <div class="action-item">
               <div class="txt"><b>Course registration closes in 3 days.</b><span>Fall semester registration ends Sept 22.</span></div>
               <button class="btn-sm" onclick="showView('registration')">Complete registration</button>
@@ -868,27 +881,49 @@
       <div class="card">
         <h3>Student profile <span class="badge demo"><span class="badge-dot"></span>Demo record</span></h3>
         <div class="profile-grid">
-          <div class="profile-field"><div class="k">Student ID</div><div class="v">2260142</div></div>
-          <div class="profile-field"><div class="k">Full name</div><div class="v">James Kollie Doe</div></div>
-          <div class="profile-field"><div class="k">Date of birth</div><div class="v">2004-03-12</div></div>
-          <div class="profile-field"><div class="k">Gender</div><div class="v">Male</div></div>
-          <div class="profile-field"><div class="k">Nationality</div><div class="v">Liberia</div></div>
-          <div class="profile-field"><div class="k">County of origin</div><div class="v">Maryland</div></div>
-          <div class="profile-field full"><div class="k">Home address</div><div class="v">Harper, Maryland County</div></div>
-          <div class="profile-field"><div class="k">Cell number</div><div class="v">077 712 4456</div></div>
-          <div class="profile-field"><div class="k">Email address</div><div class="v">jamesdoe@wvstu.edu.lr</div></div>
-          <div class="profile-field"><div class="k">College</div><div class="v">Engineering &amp; Technology</div></div>
-          <div class="profile-field"><div class="k">Major</div><div class="v">Computer Science</div></div>
-          <div class="profile-field"><div class="k">Minor</div><div class="v">Mathematics</div></div>
-          <div class="profile-field"><div class="k">Academic status</div><div class="v">Senior</div></div>
+          <div class="profile-field"><div class="k">Student ID</div><div class="v" id="profile-student-id">—</div></div>
+          <div class="profile-field"><div class="k">Full name</div><div class="v" id="profile-full-name">—</div></div>
+          <div class="profile-field"><div class="k">Date of birth</div><div class="v" id="profile-dob">—</div></div>
+          <div class="profile-field"><div class="k">Gender</div><div class="v" id="profile-gender">—</div></div>
+          <div class="profile-field"><div class="k">Nationality</div><div class="v" id="profile-nationality">—</div></div>
+          <div class="profile-field"><div class="k">County of origin</div><div class="v" id="profile-county">—</div></div>
+          <div class="profile-field full"><div class="k">Home address</div><div class="v" id="profile-address">—</div></div>
+          <div class="profile-field"><div class="k">Cell number</div><div class="v" id="profile-phone">—</div></div>
+          <div class="profile-field"><div class="k">Email address</div><div class="v" id="profile-email">—</div></div>
+          <div class="profile-field"><div class="k">College</div><div class="v" id="profile-college">—</div></div>
+          <div class="profile-field"><div class="k">Major</div><div class="v" id="profile-major">—</div></div>
+          <div class="profile-field"><div class="k">Minor</div><div class="v" id="profile-minor">—</div></div>
+          <div class="profile-field"><div class="k">Academic status</div><div class="v" id="profile-academic-status">—</div></div>
           <div class="profile-field"><div class="k">Credits completed</div><div class="v" id="profile-credits-completed">106</div></div>
-          <div class="profile-field"><div class="k">Year of entry</div><div class="v">2022/2023</div></div>
-          <div class="profile-field"><div class="k">Semester of entry</div><div class="v">1</div></div>
+          <div class="profile-field"><div class="k">Year of entry</div><div class="v" id="profile-year-entry">—</div></div>
+          <div class="profile-field"><div class="k">Semester of entry</div><div class="v" id="profile-sem-entry">—</div></div>
         </div>
         <div class="cta-row" style="margin-top:16px;">
           <button class="btn btn-secondary" onclick="changeStudentPassword()">Change password</button>
         </div>
         <div class="login-hint" style="margin-top:10px;">You can change your password once. After that, only an administrator can reset it.</div>
+      </div>
+
+      <div class="card">
+        <h3>Notification preferences</h3>
+        <div class="desc" style="margin-bottom:14px;">Choose how you'd like to be notified when grades, announcements, or payment approvals come in. SMS/WhatsApp delivery is queued in the system; the connection to an actual SMS provider is a next step for this prototype.</div>
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="field">
+            <label for="notif-phone">Phone number</label>
+            <input id="notif-phone" type="text" placeholder="0777 000 000" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+          </div>
+          <div class="field">
+            <label for="notif-channel">Notify me by</label>
+            <select id="notif-channel" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:inherit;">
+              <option value="email">Email only</option>
+              <option value="sms">SMS</option>
+              <option value="whatsapp">WhatsApp</option>
+            </select>
+          </div>
+        </div>
+        <div class="cta-row" style="margin-top:12px;">
+          <button class="btn btn-primary" onclick="saveNotificationPrefs()">Save preferences</button>
+        </div>
       </div>
     </div>
 
@@ -1386,6 +1421,18 @@
     </div>
 
     <div class="card">
+      <h3>Document requests <span class="badge demo"><span class="badge-dot"></span>Live — Official Transcript &amp; Degree Verification</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Approve a request, then mark it Ready to automatically issue a verification code the student (and anyone with the code) can check on the public verification page.</div>
+      <div id="admin-doc-requests-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Waitlists <span class="badge demo"><span class="badge-dot"></span>Live — auto-promotes when a seat opens</span></h3>
+      <div class="desc" style="margin-bottom:14px;">Students queue here automatically when a section is full. When a registered student drops, the next person on the list is enrolled automatically.</div>
+      <div id="admin-waitlist-list"></div>
+    </div>
+
+    <div class="card">
       <h3>Manage courses <span class="badge demo"><span class="badge-dot"></span>Live — same catalog Registration uses</span></h3>
       <div class="desc" style="margin-bottom:14px;">Add a course below, or bulk-upload a CSV (columns: code, title, dept, credits, lecturer, time, college). Changes appear immediately in the Curriculum and Registration tabs.</div>
 
@@ -1468,6 +1515,13 @@ function showView(v) {
 
 function routeLoginByPath() {
   var path = window.location.pathname.replace(/\/+$/, '').toLowerCase();
+
+  if (path === '/verify') {
+    document.getElementById('login-gate').style.display = 'none';
+    document.getElementById('verify-gate').style.display = 'flex';
+    return 'verify';
+  }
+
   var which = 'student';
   if (path === '/admin') which = 'admin';
   else if (path === '/faculty') which = 'faculty';
@@ -1479,6 +1533,23 @@ function routeLoginByPath() {
   var label = which === 'admin' ? 'Administration sign-in' : (which === 'faculty' ? 'Faculty sign-in' : 'Sign in to continue');
   subtitle.innerHTML = label + ' <span class="badge demo" style="vertical-align:middle;"><span class="badge-dot"></span>Demo login</span>';
   return which;
+}
+
+async function runTranscriptVerification() {
+  var code = document.getElementById('verify-code-input').value.trim().toUpperCase();
+  var out = document.getElementById('verify-result');
+  if (!code) { out.innerHTML = '<div class="login-error" style="display:block;">Enter a verification code.</div>'; return; }
+  out.innerHTML = '<div class="empty-note">Checking…</div>';
+  var res = await sb.rpc('verify_transcript', { p_code: code });
+  if (res.error || !res.data || !res.data.length) {
+    out.innerHTML = '<div class="login-error" style="display:block;">No document matches this code. Double-check it and try again.</div>';
+    return;
+  }
+  var r = res.data[0];
+  out.innerHTML = '<div class="doc-req-row" style="display:block;"><span class="doc-status ready" style="display:inline-block;margin-bottom:8px;">Verified genuine</span>' +
+    '<div class="profile-field" style="margin-bottom:6px;"><div class="k">Name</div><div class="v">' + (r.student_name || '') + '</div></div>' +
+    '<div class="profile-field" style="margin-bottom:6px;"><div class="k">Program</div><div class="v">' + (r.program || '') + '</div></div>' +
+    '<div class="profile-field"><div class="k">Issued</div><div class="v">' + new Date(r.issued_at).toLocaleDateString() + '</div></div></div>';
 }
 
 function enterApp(landingView) {
@@ -1595,10 +1666,36 @@ function honorsInfo(gpa) {
   return { label: "Below published Honor Roll range", next: "You're " + (3.00 - gpa).toFixed(2) + " points from the 3.00 Honor Roll threshold." };
 }
 
+var STANDING_LABELS = { good_standing: 'Good standing', probation: 'Academic probation', suspended: 'Suspended' };
+function renderStandingBadge(standing) {
+  var el = document.getElementById('stat-standing');
+  var subEl = document.getElementById('stat-standing-sub');
+  var alertEl = document.getElementById('standing-alert');
+  if (!el) return;
+  el.textContent = STANDING_LABELS[standing] || 'Good standing';
+  if (standing === 'suspended') {
+    el.style.color = 'var(--red)';
+    subEl.textContent = 'Contact the Registrar’s Office';
+    alertEl.style.display = 'block';
+    alertEl.innerHTML = '<div class="conflict-warn show" style="margin-top:0;margin-bottom:14px;"><b>Suspended:</b> your term GPA fell below 2.00 while already on probation. Registration is subject to Registrar review — contact the Registrar’s Office before attempting to register.</div>';
+  } else if (standing === 'probation') {
+    el.style.color = 'var(--gold)';
+    subEl.textContent = 'One term to improve your GPA';
+    alertEl.style.display = 'block';
+    alertEl.innerHTML = '<div class="conflict-warn show" style="margin-top:0;margin-bottom:14px;background:var(--gold-soft);color:#7a5a00;"><b>Academic probation:</b> your most recent term GPA fell below 2.00. Raise your term GPA to 2.00 or above this semester to return to good standing — falling below again may lead to suspension.</div>';
+  } else {
+    el.style.color = '';
+    subEl.textContent = 'No holds on file';
+    alertEl.style.display = 'none';
+    alertEl.innerHTML = '';
+  }
+}
+
 async function renderOverviewStats() {
   var sumRes = await sb.from('student_academic_summary').select('*').eq('student_id', currentUser.id).single();
   var fin = await sb.from('student_financial_summary').select('*').eq('student_id', currentUser.id).limit(1);
   var studentRes = await sb.from('students').select('*, programs(name, total_credits_required)').eq('id', currentUser.id).single();
+  renderStandingBadge(!studentRes.error && studentRes.data ? studentRes.data.standing : 'good_standing');
 
   var gpa = (!sumRes.error && sumRes.data) ? Number(sumRes.data.cumulative_gpa) : 0;
   var completed = (!sumRes.error && sumRes.data) ? Number(sumRes.data.credits_completed) : 0;
@@ -1755,22 +1852,50 @@ function renderCart() {
   } else creditWarnEl.classList.remove('show');
 }
 
+function friendlyRegistrationError(msg) {
+  if (/Prerequisite not met/i.test(msg)) return msg + ' You can add a different course or complete the prerequisite first.';
+  if (/Schedule conflict/i.test(msg)) return msg + ' Choose a different section instead.';
+  if (/credit-load|credit limit|exceeds/i.test(msg) || /permits up to/i.test(msg)) return msg;
+  if (/clearance|cleared|75%/i.test(msg)) return msg + ' Visit Finance to submit a payment for verification.';
+  return msg;
+}
+
 async function confirmRegistration() {
   var ids = Object.keys(cart);
   if (ids.length === 0) { alert('Add at least one course before confirming.'); return; }
   if (document.getElementById('conflict-warn').classList.contains('show')) { alert('Resolve the schedule conflict before confirming registration.'); return; }
   if (document.getElementById('credit-warn').classList.contains('show')) { alert('Resolve the credit-load limit before confirming registration.'); return; }
 
-  var rows = ids.map(function(sectionId){ return { student_id: currentUser.id, section_id: sectionId, term_id: CURRENT_TERM.id, status: 'registered' }; });
-  var res = await sb.from('enrollments').insert(rows);
-  if (res.error) {
-    alert('Registration could not be completed: ' + res.error.message);
-    return;
+  var succeeded = [], waitlisted = [], failed = [];
+  for (var i = 0; i < ids.length; i++) {
+    var sectionId = ids[i];
+    var course = CATALOG.find(function(c){ return c.id === sectionId; });
+    var res = await sb.from('enrollments')
+      .insert({ student_id: currentUser.id, section_id: sectionId, term_id: CURRENT_TERM.id, status: 'registered' })
+      .select('id');
+    if (res.error) {
+      failed.push((course ? course.code + ': ' : '') + friendlyRegistrationError(res.error.message));
+    } else if (!res.data || !res.data.length) {
+      // Row silently skipped by the capacity trigger -- means the section was full and
+      // this student was placed on the waitlist instead of being enrolled.
+      var wl = await sb.from('waitlist').select('position').eq('section_id', sectionId).eq('student_id', currentUser.id).single();
+      var pos = (!wl.error && wl.data) ? wl.data.position : null;
+      waitlisted.push((course ? course.code : 'Course') + (pos ? ' (waitlist position ' + pos + ')' : ' (waitlisted)'));
+    } else {
+      succeeded.push(course ? course.code : 'Course');
+    }
   }
-  alert('Registration confirmed — ' + ids.length + ' course(s) written to your enrollment record.');
+
+  var msg = '';
+  if (succeeded.length) msg += 'Registered: ' + succeeded.join(', ') + '.\n';
+  if (waitlisted.length) msg += 'Section full — added to the waitlist: ' + waitlisted.join(', ') + '. You’ll be enrolled automatically if a seat opens.\n';
+  if (failed.length) msg += 'Could not register: ' + failed.join(' | ');
+  alert(msg || 'Nothing was processed.');
+
   cart = {};
   drawCatalogList();
   renderCart();
+  await renderNotifications();
 }
 
 // =========================================================
@@ -1912,10 +2037,19 @@ async function renderDocRequests() {
   var el = document.getElementById('doc-request-list');
   var res = await sb.from('document_requests').select('*').eq('student_id', currentUser.id).order('requested_at', { ascending: false });
   if (res.error || !res.data.length) { el.innerHTML = '<div class="empty-note">No document requests yet.</div>'; return; }
+
+  var codeRes = await sb.from('transcript_documents').select('document_request_id, verification_code, issued_at').eq('student_id', currentUser.id);
+  var codeByRequest = {};
+  if (!codeRes.error) codeRes.data.forEach(function(t){ codeByRequest[t.document_request_id] = t; });
+
   el.innerHTML = res.data.map(function(d){
     var label = DOC_TYPE_LABELS[d.doc_type] || d.doc_type;
     if (d.is_special_request) label += ' (Transfer/Scholarship request)';
-    return '<div class="doc-req-row"><div class="info"><b>' + label + '</b><small>Requested ' + new Date(d.requested_at).toLocaleDateString() + '</small></div><span class="doc-status ' + d.status + '">' + d.status.charAt(0).toUpperCase() + d.status.slice(1) + '</span></div>';
+    var tx = codeByRequest[d.id];
+    var codeBlock = (d.status === 'ready' && tx)
+      ? '<div style="margin-top:6px; font-size:12px;">Verification code: <code style="background:var(--gold-soft);padding:2px 6px;border-radius:4px;font-weight:700;">' + tx.verification_code + '</code> <span style="color:var(--ink-dim);">— anyone can confirm this document at the public verification page.</span></div>'
+      : '';
+    return '<div class="doc-req-row"><div class="info"><b>' + label + '</b><small>Requested ' + new Date(d.requested_at).toLocaleDateString() + '</small>' + codeBlock + '</div><span class="doc-status ' + d.status + '">' + d.status.charAt(0).toUpperCase() + d.status.slice(1) + '</span></div>';
   }).join('');
 }
 
@@ -1946,11 +2080,39 @@ async function openNotification(id, view) {
 // PROFILE
 // =========================================================
 async function renderProfile() {
-  var res = await sb.from('students').select('*, profiles(first_name, last_name, email, phone), programs(name)').eq('id', currentUser.id).single();
+  var res = await sb.from('students')
+    .select('*, profiles(first_name, last_name, middle_name, email, phone, phone_number, notification_channel), programs!program_id(name), minor_program:programs!minor_program_id(name)')
+    .eq('id', currentUser.id).single();
   if (res.error) return;
-  var s = res.data, p = s.profiles || {}, prog = s.programs || {};
-  var setField = function(sel, val){ var el = document.querySelector(sel); if (el) el.textContent = val || '—'; };
-  document.getElementById('profile-credits-completed'); // already handled in overview stats
+  var s = res.data, p = s.profiles || {}, prog = s.programs || {}, minor = s.minor_program || {};
+  var set = function(id, val){ var el = document.getElementById(id); if (el) el.textContent = (val === null || val === undefined || val === '') ? '—' : val; };
+  set('profile-student-id', s.student_id_number);
+  set('profile-full-name', [p.first_name, p.middle_name, p.last_name].filter(Boolean).join(' '));
+  set('profile-dob', s.date_of_birth);
+  set('profile-gender', s.gender);
+  set('profile-nationality', s.nationality);
+  set('profile-county', s.county_of_origin);
+  set('profile-address', s.home_address);
+  set('profile-phone', p.phone || p.phone_number);
+  set('profile-email', p.email);
+  set('profile-college', prog.name);
+  set('profile-major', prog.name);
+  set('profile-minor', minor.name);
+  set('profile-academic-status', s.academic_status);
+  set('profile-year-entry', s.year_of_entry);
+  set('profile-sem-entry', s.semester_of_entry);
+
+  var phoneEl = document.getElementById('notif-phone'); if (phoneEl) phoneEl.value = p.phone_number || '';
+  var chanEl = document.getElementById('notif-channel'); if (chanEl) chanEl.value = p.notification_channel || 'email';
+}
+
+async function saveNotificationPrefs() {
+  var phone = document.getElementById('notif-phone').value.trim();
+  var channel = document.getElementById('notif-channel').value;
+  if (channel !== 'email' && !phone) { alert('Enter a phone number to receive SMS or WhatsApp notifications.'); return; }
+  var res = await sb.from('profiles').update({ phone_number: phone || null, notification_channel: channel }).eq('id', currentUser.id);
+  if (res.error) { alert('Could not save preferences: ' + res.error.message); return; }
+  alert('Notification preferences saved.');
 }
 
 function changeStudentPassword() {
@@ -2138,13 +2300,71 @@ async function refreshAdminPortal() {
     renderAdminScholarships(),
     renderStudentRoster(),
     renderAdminAnnouncementFeed(),
-    renderAdminDocReviews()
+    renderAdminDocReviews(),
+    renderAdminDocRequests(),
+    renderAdminWaitlist()
   ]);
 }
 
 function renderAdminDocReviews() {
   var el = document.getElementById('admin-doc-review-list');
   if (el) el.innerHTML = '<div class="empty-note">No admission documents awaiting review yet.</div>';
+}
+
+// =========================================================
+// ADMIN: DOCUMENT REQUESTS (Official Transcript / Degree Verification / etc.)
+// submitted -> in_review -> ready (issues a verification code automatically via trigger)
+// =========================================================
+var DOC_REQ_NEXT_STATUS = { submitted: 'processing', processing: 'ready' };
+var DOC_REQ_NEXT_LABEL = { submitted: 'Start review', processing: 'Mark ready' };
+
+async function renderAdminDocRequests() {
+  var el = document.getElementById('admin-doc-requests-list');
+  if (!el) return;
+  var res = await sb.from('document_requests')
+    .select('id, doc_type, is_special_request, special_reason, status, requested_at, students(student_id_number, profiles(first_name,last_name))')
+    .neq('status', 'ready').order('requested_at', { ascending: true });
+  if (res.error) { el.innerHTML = '<div class="empty-note">Could not load: ' + res.error.message + '</div>'; return; }
+  if (!res.data.length) { el.innerHTML = '<div class="empty-note">No open document requests.</div>'; return; }
+  el.innerHTML = res.data.map(function(d){
+    var st = d.students || {}; var p = st.profiles || {};
+    var name = (p.first_name || '') + ' ' + (p.last_name || '') + (st.student_id_number ? ' (' + st.student_id_number + ')' : '');
+    var label = DOC_TYPE_LABELS[d.doc_type] || d.doc_type;
+    if (d.is_special_request) label += ' — Transfer/Scholarship: ' + (d.special_reason || '');
+    var nextStatus = DOC_REQ_NEXT_STATUS[d.status];
+    var actionBtn = nextStatus
+      ? '<button class="btn-sm" onclick="advanceDocRequest(\'' + d.id + '\',\'' + nextStatus + '\')">' + DOC_REQ_NEXT_LABEL[d.status] + '</button>'
+      : '<span class="doc-status ' + d.status + '">' + d.status + '</span>';
+    return '<div class="doc-req-row"><div class="info"><b>' + label + '</b><small>' + name + ' · Requested ' + new Date(d.requested_at).toLocaleDateString() + '</small></div>' + actionBtn + '</div>';
+  }).join('');
+}
+
+async function advanceDocRequest(id, nextStatus) {
+  var update = { status: nextStatus };
+  if (nextStatus === 'ready') { update.fulfilled_by = currentUser.id; update.fulfilled_at = new Date().toISOString(); }
+  var res = await sb.from('document_requests').update(update).eq('id', id);
+  if (res.error) { alert('Could not update request: ' + res.error.message); return; }
+  await renderAdminDocRequests();
+  if (nextStatus === 'ready') alert('Marked ready — a verification code has been issued and is now visible to the student.');
+}
+
+// =========================================================
+// ADMIN: WAITLISTS
+// =========================================================
+async function renderAdminWaitlist() {
+  var el = document.getElementById('admin-waitlist-list');
+  if (!el) return;
+  var res = await sb.from('waitlist')
+    .select('position, created_at, course_sections(courses(code,title)), students(student_id_number, profiles(first_name,last_name))')
+    .order('position', { ascending: true });
+  if (res.error) { el.innerHTML = '<div class="empty-note">Could not load waitlists: ' + res.error.message + '</div>'; return; }
+  if (!res.data.length) { el.innerHTML = '<div class="empty-note">No students on a waitlist right now.</div>'; return; }
+  el.innerHTML = res.data.map(function(w){
+    var c = (w.course_sections && w.course_sections.courses) || {};
+    var st = w.students || {}; var p = st.profiles || {};
+    var name = (p.first_name || '') + ' ' + (p.last_name || '') + (st.student_id_number ? ' (' + st.student_id_number + ')' : '');
+    return '<div class="doc-req-row"><div class="info"><b>' + (c.code || 'Course') + ' — position ' + w.position + '</b><small>' + name + '</small></div></div>';
+  }).join('');
 }
 
 async function getCollegeIdByName(name) {
@@ -2359,9 +2579,10 @@ async function submitAttendance() {
 // =========================================================
 // RESTORE EXISTING SESSION ON PAGE LOAD
 // =========================================================
-routeLoginByPath();
+var BOOT_ROUTE = routeLoginByPath();
 
 (async function checkExistingSession() {
+  if (BOOT_ROUTE === 'verify') return; // public verification page never auto-enters the app
   var sessionRes = await sb.auth.getSession();
   var session = sessionRes.data && sessionRes.data.session;
   if (!session) return;
